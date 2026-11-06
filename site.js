@@ -310,24 +310,41 @@ const checklists = {
   'give-back': ['Activity & cause', 'Eligibility', 'Time commitment', 'How to join'],
 };
 const sideLabel = { compete: 'Compete', perform: 'Perform', watch: 'Watch', 'give-back': 'Give back' };
+// Real Xpressions events from past editions (2016, 2019, 2022, 2024 coverage). This edition's lineup is TBA.
 const events = [
-  { side: 'compete', cat: 'Case & simulation', name: 'J.O.A.T.', blurb: 'Think fast. Make your case.', img: 'assets/case.webp', tag: 'PREVIOUS EDITION', desc: 'A jack-of-all-trades challenge across business functions. Teams work through cases and simulations under time pressure.' },
-  { side: 'compete', cat: 'Quiz', name: 'Inquizzitive', blurb: 'Bring your curiosity to the buzzer.', img: 'assets/quiz.webp', tag: 'PREVIOUS EDITION', desc: 'Business, brands and general knowledge across rapid rounds. Format for this edition is TBA.' },
-  { side: 'compete', cat: 'Trading simulation', name: 'Trade Wars', blurb: 'Put your market instincts to work.', img: 'assets/trade.webp', tag: 'PREVIOUS EDITION', desc: 'A simulated market where teams build and manage a portfolio as news breaks.' },
-  { side: 'compete', cat: 'More challenges', name: 'Functional Events', blurb: 'Marketing, finance and HR challenges.', tag: 'TBA', desc: 'Additional management competitions will be listed here once the organising team confirms them.' },
-  { side: 'perform', cat: 'Music', name: 'Battle of Sound', blurb: 'Solo voices and full bands.', img: 'assets/singer.webp', tag: 'TENTATIVE', desc: 'An intercollege music stage for solo artists and bands. Event name and format are placeholders.' },
-  { side: 'perform', cat: 'Dance', name: 'Dance Off', blurb: 'Solo, duet and crew formats.', img: 'assets/hero-dance.webp', tag: 'TENTATIVE', desc: 'Take the floor in solo or crew categories. Event name and format are placeholders.' },
-  { side: 'perform', cat: 'Theatre', name: 'Stage & Street', blurb: 'Stage plays and street theatre.', tag: 'TENTATIVE', ph: '◐', desc: 'Short plays and nukkad natak performances. Event name and format are placeholders.' },
-  { side: 'perform', cat: 'Open mic', name: 'Open Mic', blurb: 'Poetry, stand-up and storytelling.', tag: 'TENTATIVE', ph: '◎', desc: 'An open stage for spoken word, comedy and storytelling. Event name and format are placeholders.' },
-  { side: 'watch', cat: 'Headline night', name: 'Pro Night', blurb: 'Live headline performance.', img: 'assets/crowd.webp', tag: 'ARTIST TBA', hot: true, desc: 'The headline act of the fest. Artist, timings and pass details will be announced.' },
-  { side: 'watch', cat: 'Speakers', name: 'Speaker Sessions', blurb: 'Conversations with industry leaders.', tag: 'SPEAKERS TBA', ph: '“', desc: 'Talks and panels with leaders from business and the creative industry. Speakers will be announced after confirmation.' },
-  { side: 'watch', cat: 'Attractions', name: 'Fest Zone', blurb: 'Food stalls, games and pop-ups.', ph: '✕', tag: 'TENTATIVE', desc: 'Stalls, games and hangout spaces across campus. Final attractions are TBA.' },
-  { side: 'give-back', cat: 'Volunteer', name: 'Fest Crew', blurb: 'Help run the festival.', tag: 'TENTATIVE', ph: '+', desc: 'Volunteer with hospitality, events or operations. Roles will be listed if confirmed by the organisers.' },
-  { side: 'give-back', cat: 'Social cause', name: 'Cause Drive', blurb: 'Give time to a cause.', tag: 'CAUSE TBA', ph: '♥', desc: 'A social initiative run alongside the fest. Partner cause and activity are TBA.' },
+  // COMPETE: business, case, simulation and quiz events
+  { side: 'compete', cat: 'Case & simulation', name: 'J.O.A.T.', blurb: 'Jack of All Trades. X-STEC\'s flagship case and simulation challenge.', img: 'assets/case.webp', tag: 'FLAGSHIP', desc: 'Jack of All Trades is the flagship event of X-STEC, the Xpressions Steering Committee: a national-level case study and simulation game that tests you across business functions.' },
+  { side: 'compete', cat: 'Quiz', name: 'Inquizzitive', blurb: 'The flagship quiz, with business and general rounds.', img: 'assets/quiz.webp', tag: 'FLAGSHIP', desc: 'Xpressions\' flagship quizzing competition, run by Xquizzite, XIMB\'s quiz club. Past editions have had both a business quiz and a general quiz.' },
+  { side: 'compete', cat: 'Trading simulation', name: 'Trade Wars', blurb: 'An online trading simulation. Back your market calls.', img: 'assets/trade.webp', tag: 'SINCE 2016', desc: 'An online trading simulation where teams manage a portfolio as the market moves. A regular since at least 2016.' },
+  { side: 'compete', cat: 'Debate', name: 'XIMB MUN', blurb: 'Model United Nations, run by Speak Up across all three days.', tag: 'RETURNING', ph: '◎', desc: 'XIMB\'s Model United Nations, organised by Speak Up, the oratory club. Committees debate global issues over the three days of the fest.' },
+  { side: 'compete', cat: 'Case study', name: 'Maven', blurb: 'A national-level case study competition by Constrat.', tag: 'RETURNING', ph: '◆', desc: 'A national-level case study competition organised by Constrat, XIMB\'s consulting and strategy association.' },
+  { side: 'compete', cat: 'Marketing', name: 'Maxim Mela', blurb: 'A marketing fair by MAXIM, the marketing association.', tag: 'RETURNING', ph: '✦', desc: 'A marketing research and activity fair organised by MAXIM, XIMB\'s marketing association.' },
+  { side: 'compete', cat: 'Gaming', name: 'Xigabytes', blurb: 'The gaming event by X-Sys, the systems association.', tag: 'RETURNING', ph: '▶', desc: 'A gaming competition run by X-Sys, the systems association, over the three days of the fest.' },
+  { side: 'compete', cat: 'Finance', name: 'FinBid', blurb: 'A bidding game by X-Fin that tests strategic thinking.', tag: 'RETURNING', ph: '₹', desc: 'A bidding session run by X-Fin, the finance association, that tests your strategic thinking.' },
+  { side: 'compete', cat: 'Pitching', name: 'Pitch It Abroad', blurb: 'A pitching contest by the International Relations committee.', tag: 'RETURNING', ph: '↗', desc: 'A pitching competition organised by XIMB\'s International Relations committee.' },
+  // PERFORM: stage and creative competitions
+  { side: 'perform', cat: 'Dance', name: 'Thirkan', blurb: 'The dance competition. Solo or crew, take the floor.', img: 'assets/hero-dance.webp', tag: 'STAGE', desc: 'Xpressions\' dance competition, held on the main stage.' },
+  { side: 'perform', cat: 'Singing & music', name: 'Goonj', blurb: 'The marquee music competition held at every Xpressions.', img: 'assets/singer.webp', tag: 'STAGE', desc: 'The marquee music competition held at every Xpressions. Past editions have featured solo singers and instrumentalists.' },
+  { side: 'perform', cat: 'Battle of bands', name: 'Decibelz', blurb: 'The band hunt. Bring your band to an intercollege stage.', tag: 'STAGE', ph: '♪', desc: 'The band competition. In 2016 it was won by Hidden Identity, a band from Kolkata.' },
+  { side: 'perform', cat: 'Fashion show', name: 'Carnival De Vogue', blurb: 'The fest\'s high-fashion runway show.', img: 'assets/hero-runway.webp', tag: 'STAGE', desc: 'The fashion show of Xpressions, a fixture on the stage lineup in every edition.' },
+  { side: 'perform', cat: 'Street play', name: 'Aaghaz', blurb: 'Nukkad natak on social issues.', tag: 'STAGE', ph: '◐', desc: 'A street play (nukkad natak) competition on social themes. Teams from KIIT and IBS have won in past editions.' },
+  { side: 'perform', cat: 'Rap battle', name: 'Rap It Up', blurb: 'Teams from across colleges go bar for bar.', tag: 'STAGE', ph: '✕', desc: 'A rap battle where teams from various colleges compete on stage.' },
+  { side: 'perform', cat: 'Instrumental', name: 'Dhoon', blurb: 'The instrumental competition.', tag: 'STAGE', ph: '♫', desc: 'A competition for instrumentalists.' },
+  { side: 'perform', cat: 'Art', name: 'Paint@XIMB', blurb: 'The painting competition.', tag: 'CREATIVE', ph: '✎', desc: 'A painting competition held on campus during the fest.' },
+  { side: 'perform', cat: 'Face painting', name: 'Pratibimb', blurb: 'The face painting competition.', tag: 'CREATIVE', ph: '☺', desc: 'A face painting competition.' },
+  // WATCH: nights, shows and campus attractions
+  { side: 'watch', cat: 'Celebrity night', name: 'Celeblitz', blurb: 'The headline concert that closes the fest.', img: 'https://media.youthincmag.com/images/ad569457-84ef-4043-8eba-56eab794ec34/large.webp', fb: 'assets/crowd.webp', tag: 'ARTIST TBA', hot: true, desc: 'The celebrity night. Past headliners include Shankar-Ehsaan-Loy (2016, 20,000+ crowd), Mika Singh (2019), Vishal-Sheykhar (2023) and Darshan Raval (2024). This edition\'s artist is TBA.' },
+  { side: 'watch', cat: 'DJ night', name: 'Sunburn Campus', blurb: 'The EDM night, with DJs on the main stage.', img: 'https://www.pagalguy.com/wp-content/uploads/2023/01/IMG-20230123-WA0013-450x300.jpg', fb: 'assets/crowd.webp', tag: 'LINEUP TBA', desc: 'The 2022 edition had a Sunburn Campus night with Olly Esse and Zephyrtone. This edition\'s lineup is TBA.' },
+  { side: 'watch', cat: 'Comedy night', name: 'Stand-up Night', blurb: 'A headline stand-up set to close a fest day.', tag: 'COMIC TBA', ph: '“', desc: 'Past editions have closed a fest day with stand-up from comedians such as Karunesh Talwar and Aakash Gupta.' },
+  { side: 'watch', cat: 'Campus attractions', name: 'Fun Zone', blurb: 'Zorbing, bungee basketball and rifle shooting.', tag: 'ON CAMPUS', ph: '●', desc: 'Campus activities from past editions include zorbing, bungee basketball and rifle shooting.' },
+  // GIVE BACK: social impact events by the Social Responsibility Cell
+  { side: 'give-back', cat: 'Inclusion', name: 'X-Enable', blurb: 'A sports event for specially-abled children.', tag: 'SRC', ph: '+', desc: 'An annual sports event for specially-abled children, organised by XIMB\'s Social Responsibility Cell.' },
+  { side: 'give-back', cat: 'Run', name: 'Xathon', blurb: 'A run for a cause before the fest.', tag: 'SRC', ph: '♥', desc: 'A fundraising run held around the fest. The 2019 theme was "Run a mile, Spread a smile"; in 2021 it was a pan-India walk for disability rights with 459 participants.' },
+  { side: 'give-back', cat: 'CSR case', name: 'Vriddhi', blurb: 'A national-level CSR action plan competition.', tag: 'SRC', ph: '↑', desc: 'A national-level case competition on CSR action plans, run by the Social Responsibility Cell.' },
 ];
 const grid = $('#event-grid'), note = $('#tab-note');
 function media(ev) {
-  return ev.img ? `<img src="${ev.img}" alt="" loading="lazy">` : `<div class="ph-art">${ev.ph || 'X'}<small>IMAGE PLACEHOLDER</small></div>`;
+  return ev.img ? `<img src="${ev.img}" alt="" loading="lazy"${ev.fb ? ` data-fallback="${ev.fb}" referrerpolicy="no-referrer"` : ''}>` : `<div class="ph-art">${ev.ph || 'X'}<small>IMAGE PLACEHOLDER</small></div>`;
 }
 grid.innerHTML = events.map((ev, i) => `
   <article class="ev" data-i="${i}" data-side="${ev.side}" aria-roledescription="slide" aria-label="${i + 1} of ${events.length}: ${ev.name}">
@@ -446,7 +463,19 @@ $('#m-cta').addEventListener('click', () => {
   setTimeout(() => $('#f-name').focus({ preventScroll: true }), 700);
 });
 
-/* ---------- Highlights ---------- */
+/* ---------- Blast from the past ---------- */
+// Past-edition photos load from their source sites; if one fails, show the local illustration instead.
+$$('img[data-fallback]').forEach(img => {
+  const swapImg = () => {
+    if (img.dataset.swapped) return;
+    img.dataset.swapped = '1';
+    img.src = img.dataset.fallback;
+    const small = img.closest('figure')?.querySelector('figcaption small');
+    if (small) small.textContent = 'ILLUSTRATIVE';
+  };
+  img.addEventListener('error', swapImg);
+  if (img.complete && img.naturalWidth === 0) swapImg();
+});
 const vid = $('.tile-video video'), vbtn = $('.vid-toggle');
 if (reduced) { vid.pause(); vid.removeAttribute('autoplay'); vbtn.textContent = '▶'; vbtn.setAttribute('aria-label', 'Play video'); }
 vbtn.addEventListener('click', () => {

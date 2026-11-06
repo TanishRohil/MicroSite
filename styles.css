@@ -268,6 +268,17 @@ h1{font-size:clamp(3.2rem,6.4vw,6.4rem);margin-bottom:1rem}
 .tile figcaption small{display:block;font:500 .62rem var(--mono);letter-spacing:.14em;color:var(--coral)}
 .tile-video{grid-row:span 2;cursor:default}
 .tile-wide{grid-column:span 2}
+.tile-tall{grid-row:span 2}
+.bento{grid-auto-flow:dense}
+.editions{list-style:none;padding:0;margin:0 0 2rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1rem;position:relative}
+.editions::before{content:"";position:absolute;left:0;right:0;top:1.35rem;height:2px;background:linear-gradient(90deg,var(--coral),rgba(255,91,85,.15))}
+.editions li{position:relative;padding-top:3rem;min-width:0}
+.editions li::before{content:"";position:absolute;top:.95rem;left:0;width:14px;height:14px;border-radius:50%;background:var(--navy);border:3px solid var(--coral)}
+.editions b{font:400 2.6rem/1 var(--display);color:var(--coral);display:block}
+.editions span{font:500 .7rem var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ivory)}
+.editions p{color:var(--muted-dark);font-size:.92rem;margin-top:.4rem;max-width:36ch}
+.credits{color:var(--muted-dark);opacity:1;margin-top:1.2rem}
+.credits a{color:var(--ivory)}
 .vid-toggle{position:absolute;top:.7rem;right:.7rem;width:36px;height:36px;border-radius:50%;border:1px solid rgba(244,239,230,.4);background:rgba(11,18,32,.6);cursor:pointer;font-size:.7rem;z-index:2}
 .placeholder{cursor:default;border:1.5px dashed rgba(244,239,230,.25);background:repeating-linear-gradient(135deg,rgba(244,239,230,.03) 0 12px,transparent 12px 24px)}
 .ph{position:absolute;inset:0;display:grid;place-content:center;text-align:center;font-weight:700;color:var(--muted-dark);gap:.2rem;padding:1rem}
@@ -447,7 +458,10 @@ details>div>p{overflow:hidden;color:var(--muted);padding-bottom:1.1rem;max-width
   .cflow-dots{display:none}
   .bento{grid-auto-rows:160px}
   .tile-video{grid-row:span 2}
-  .stats{grid-template-columns:repeat(2,1fr)}
+  .editions{grid-template-columns:1fr !important}
+  .editions::before{left:6px;right:auto;top:1rem;bottom:1rem;width:2px;height:auto}
+  .editions li{padding:0 0 0 2rem}
+  .editions li::before{top:.4rem}
   .journey{grid-template-columns:1fr}
   .modal-card{grid-template-columns:1fr}
   .m-media{min-height:170px}

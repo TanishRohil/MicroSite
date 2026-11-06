@@ -19,7 +19,8 @@ Edit `heroSlides` in site.js. Each slide has `image` (put files in assets/), `po
 - `interestFormUrl`: optional public Google Form link, shown as a fallback link.
 - `festStart`: currently a DUMMY date (17 Jan 2027). Replace with the confirmed start. It drives the countdown, the date chip, the hero eyebrow and both Add to calendar options (Google Calendar link and .ics file).
 - `visitCounter`: free Abacus counter (abacus.jasoncameron.dev). Every page open adds 1 and shows the total under Site visits. Change the namespace/key in the URL to start a fresh count.
-- Replace TBA text, the tentative event names (Battle of Sound, Dance Off, Stage & Street, Open Mic, Pro Night, Fest Zone, Fest Crew, Cause Drive) and placeholder tiles once the organising team confirms them.
+- Events in the Find Your X carousel are real Xpressions events from past editions (2016 to 2024 coverage), sorted into Compete, Perform, Watch and Give back. Confirm which run this edition and update `events` in site.js.
+- Past-edition photos in Blast from the Past are linked from news sites (PaGaLGuY, Youth Incorporated, OfficeChai, XIM University). If one fails to load, a local illustration shows instead. For permanence, download originals into assets/ and point the img src at them.
 - Add real contact email/phone and social URLs in the FAQ section of index.html (remove `data-pending` from each social link).
 - Paste the Search Console verification meta tag in the head.
 
