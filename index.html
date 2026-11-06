@@ -2,71 +2,332 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Explore Xpressions, XIMB’s management and cultural festival in Bhubaneswar. Find your competitive, creative or crowd side.">
-<meta name="theme-color" content="#10182b">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Find Your X | Xpressions at XIMB</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Xpressions is XIMB's management and cultural festival in Bhubaneswar. Business challenges, creative performances and live entertainment in one fest.">
+<meta name="theme-color" content="#10182b">
+<meta property="og:title" content="Xpressions at XIMB | Bring your other side">
+<meta property="og:description" content="Business challenges. Creative performances. Live entertainment. XIMB, Bhubaneswar.">
+<meta property="og:image" content="assets/hero.webp">
+<!-- Search Console: paste the URL-prefix verification meta tag here before verifying -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Onest:wght@400;500;700;800&family=IBM+Plex+Mono:wght@500&display=swap">
 <link rel="stylesheet" href="styles.css">
 <script src="site.js" defer></script>
 </head>
 <body>
+<!--SITE-START-->
+<div class="loader" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="M18 18 82 82M82 18 18 82"/></svg></div>
+<div class="progress" aria-hidden="true"><span></span></div>
 <a class="skip" href="#main">Skip to content</a>
-<header class="bar"><div class="wrap nav">
-<a class="brand" href="#home" aria-label="Xpressions home"><span>X</span>PRESSIONS</a>
-<nav aria-label="Main navigation"><a href="#explore">Explore</a><a href="#highlights">Highlights</a><a href="#visit">Plan your visit</a><a class="button small" href="#interest">Register my interest ↗</a></nav>
-</div></header>
+
+<header class="bar" id="top-bar">
+  <div class="wrap nav">
+    <a class="brand" href="#home" aria-label="Xpressions home"><span>X</span>PRESSIONS</a>
+    <button class="menu-toggle" aria-expanded="false" aria-controls="site-nav"><span></span><span></span><span class="sr">Menu</span></button>
+    <nav id="site-nav" aria-label="Main navigation">
+      <a href="#explore">Events</a>
+      <a href="#highlights">Highlights</a>
+      <a href="#programme">Programme &amp; venue</a>
+      <a href="#faq">FAQs &amp; contact</a>
+      <a class="btn btn-sm" href="#interest">Register my interest <i>↗</i></a>
+    </nav>
+  </div>
+</header>
+
 <main id="main">
+
+<!-- 1. HOME -->
 <section class="hero" id="home">
-<div class="hero-art" role="img" aria-label="Illustrative split portrait of a student and a singer on stage"></div>
-<div class="wrap hero-copy">
-<p class="eyebrow">XIMB · BHUBANESWAR <span> / </span> FEST DATES TBA</p>
-<h1>BRING YOUR<br><em>OTHER SIDE.</em></h1>
-<p class="intro">Business challenges. Creative performances. Live entertainment.</p>
-<div class="actions"><a class="button" href="#interest">Register my interest ↗</a><a class="button outline" href="#explore">Explore the fest ↓</a></div>
-</div>
+  <canvas class="sparks" aria-hidden="true"></canvas>
+  <div class="hero-art" id="hero-art" aria-hidden="true">
+    <div class="art-move">
+      <div class="layer under"></div>
+      <div class="layer half half-a"></div>
+      <div class="layer half half-b"></div>
+      <div class="rift"></div>
+      <svg class="seam" viewBox="0 0 100 100" preserveAspectRatio="none"><line x1="30" y1="-2" x2="62" y2="102"/></svg>
+    </div>
+  </div>
+  <div class="slide-ui" id="slide-ui">
+    <p class="slide-tag"><span id="slide-count">01 / 03</span><b id="slide-label">ONE PERSON. DIFFERENT SIDES.</b></p>
+    <div class="slide-dots" id="slide-dots" role="tablist" aria-label="Hero images"></div>
+  </div>
+  <div class="wrap hero-copy">
+    <p class="eyebrow"><span class="dot"></span>XIMB · XAVIER SQUARE, BHUBANESWAR <b>/</b> DATES TO BE ANNOUNCED</p>
+    <h1><span class="line"><span>BRING YOUR</span></span><span class="line"><em>OTHER SIDE.</em></span></h1>
+    <p class="intro">Business challenges. Creative performances. Live entertainment.</p>
+    <p class="swap" id="hero-caption" aria-live="polite"><span class="swap-a">Good with numbers.</span> <span class="swap-b">Better with a chorus.</span></p>
+    <div class="actions">
+      <a class="btn magnetic" href="#interest">Register my interest <i>↗</i></a>
+      <a class="btn btn-ghost" href="#explore">Explore events <i>↓</i></a>
+    </div>
+    <ul class="status" aria-label="Festival essentials">
+      <li><small>Venue</small><strong>XIMB campus</strong></li>
+      <li><small>Dates</small><strong id="date-label">TBA</strong></li>
+      <li><small>Registrations</small><strong><span class="live"></span>Interest open</strong></li>
+    </ul>
+    <div class="countdown" id="countdown" aria-label="Countdown to Xpressions">
+      <div><b data-cd="d">--</b><small>days</small></div>
+      <div><b data-cd="h">--</b><small>hrs</small></div>
+      <div><b data-cd="m">--</b><small>min</small></div>
+      <div><b data-cd="s">--</b><small>sec</small></div>
+      <p class="cd-note">Countdown starts once the organising team confirms the dates.</p>
+    </div>
+    <p class="fine">Interest does not confirm entry. Details subject to organiser confirmation.</p>
+  </div>
 </section>
-<section class="section wrap" id="explore">
-<p class="eyebrow accent">01 / YOUR FEST. YOUR WAY.</p>
-<h2>FIND YOUR <em>X.</em></h2>
-<p class="lede">Pick a side. Or discover a new one.</p>
-<div class="choices" aria-label="Explore festival experiences">
-<button data-side="compete" aria-pressed="true"><small>01</small><strong>COMPETE</strong><span>For your competitive side</span></button>
-<button data-side="perform" aria-pressed="false"><small>02</small><strong>PERFORM</strong><span>For your stage side</span></button>
-<button data-side="watch" aria-pressed="false"><small>03</small><strong>WATCH</strong><span>For your crowd side</span></button>
-<button data-side="give-back" aria-pressed="false"><small>04</small><strong>GIVE BACK</strong><span>For your giving side</span></button>
+
+<div class="marquee" aria-hidden="true">
+  <div class="track">
+    <span>COMPETE</span><i>✕</i><span>PERFORM</span><i>✕</i><span>WATCH</span><i>✕</i><span>GIVE BACK</span><i>✕</i><span>WHERE AMBITION MEETS EXPRESSION</span><i>✕</i>
+    <span>COMPETE</span><i>✕</i><span>PERFORM</span><i>✕</i><span>WATCH</span><i>✕</i><span>GIVE BACK</span><i>✕</i><span>WHERE AMBITION MEETS EXPRESSION</span><i>✕</i>
+  </div>
 </div>
-<div class="side-detail" id="side-detail" aria-live="polite"><h3>Put your ideas to the test.</h3><p>Explore business challenges, quizzes and simulations. Eligibility, team size, fees and deadlines will be shared once confirmed.</p></div>
+
+<!-- Positioning -->
+<section class="section wrap pillars-sec" id="about">
+  <div class="split-head reveal">
+    <div>
+      <p class="eyebrow accent">THE FEST</p>
+      <h2>WHERE AMBITION<br>MEETS <em>EXPRESSION.</em></h2>
+    </div>
+    <p class="lede">The challenge of a B-school fest. The energy of a cultural festival. Test your ideas against other teams, take your talent to an intercollege stage, or come for the live performances, all in one festival.</p>
+  </div>
+  <div class="pillars">
+    <article class="pillar reveal tilt"><span class="glyph" aria-hidden="true">◆</span><h3>Challenge</h3><p>Management competitions grounded in XIMB's B-school identity.</p></article>
+    <article class="pillar reveal tilt"><span class="glyph" aria-hidden="true">✦</span><h3>Expression</h3><p>Opportunities to perform and enjoy interests beyond academics.</p></article>
+    <article class="pillar reveal tilt"><span class="glyph" aria-hidden="true">●</span><h3>Community</h3><p>A meeting point for visiting teams, local college students and the XIMB community.</p></article>
+  </div>
 </section>
-<section class="section highlights" id="highlights"><div class="wrap">
-<p class="eyebrow accent">02 / FROM PREVIOUS EDITIONS</p>
-<h2>A CHALLENGE WITH<br>YOUR NAME ON IT.</h2>
-<p class="lede">Examples from the Step 2 concept. This edition’s lineup is TBA.</p>
-<div class="cards">
-<article><img src="assets/case.webp" alt="Illustration of students discussing a case" loading="lazy"><p class="eyebrow accent">CASE &amp; SIMULATION</p><h3>J.O.A.T.</h3><p>Think on your feet and make your case.</p></article>
-<article><img src="assets/quiz.webp" alt="Illustration of a microphone at a quiz" loading="lazy"><p class="eyebrow accent">QUIZ</p><h3>Inquizzitive</h3><p>Bring your curiosity to the buzzer.</p></article>
-<article><img src="assets/trade.webp" alt="Illustration of a screen with a market chart" loading="lazy"><p class="eyebrow accent">TRADING SIMULATION</p><h3>Trade Wars</h3><p>Put your market instincts to work.</p></article>
-</div></div></section>
-<section class="section wrap" id="visit">
-<p class="eyebrow accent">03 / BEFORE YOU COMMIT</p><h2>PLAN YOUR VISIT.</h2>
-<div class="visit-grid">
-<div><h3>Programme &amp; schedule</h3><p>Dates, event timings and reporting times are TBA.</p></div>
-<div><h3>Campus &amp; venue</h3><p>XIMB, Xavier Square, Bhubaneswar. Event rooms and entry instructions are TBA.</p><a href="https://www.google.com/maps/search/?api=1&amp;query=XIMB%20Xavier%20Square%20Bhubaneswar">Find the campus on Maps ↗</a></div>
-<div><h3>Participation</h3><p>Check back for eligibility, team sizes, rules, fees and deadlines once the organisers confirm them.</p></div>
-</div></section>
-<section class="interest" id="interest"><div class="wrap">
-<p class="eyebrow">04 / PARTICIPATION</p><h2>YOUR XPRESSIONS<br>STARTS HERE.</h2>
-<p id="interest-status">The interest form will appear here once the organisers confirm it.</p>
-<a class="button" id="interest-form" hidden>Register my interest ↗</a>
-<p class="note">Submitting interest does not confirm entry.</p>
-</div></section>
+
+<!-- 2. EVENTS: competitions, performances, speakers, attractions -->
+<section class="section events-sec" id="explore">
+  <div class="wrap">
+    <div class="split-head reveal">
+      <div>
+        <p class="eyebrow accent">YOUR FEST. YOUR WAY.</p>
+        <h2>FIND YOUR <em>X.</em></h2>
+      </div>
+      <p class="lede">Pick a side. Or discover a new one. Tap any event to see what you need to know before you commit.</p>
+    </div>
+    <div class="tabs" role="tablist" aria-label="Festival experiences">
+      <button role="tab" data-side="all" aria-selected="true"><small>ALL</small><strong>EVERYTHING</strong><span>See the full lineup</span></button>
+      <button role="tab" data-side="compete" aria-selected="false"><small>01</small><strong>COMPETE</strong><span>For your competitive side</span></button>
+      <button role="tab" data-side="perform" aria-selected="false"><small>02</small><strong>PERFORM</strong><span>For your stage side</span></button>
+      <button role="tab" data-side="watch" aria-selected="false"><small>03</small><strong>WATCH</strong><span>For your crowd side</span></button>
+      <button role="tab" data-side="give-back" aria-selected="false"><small>04</small><strong>GIVE BACK</strong><span>For your giving side</span></button>
+    </div>
+    <p class="tab-note" id="tab-note" aria-live="polite">Showing all experiences. Every listing is tentative until the organising team confirms it.</p>
+    <div class="event-grid" id="event-grid"></div>
+  </div>
+</section>
+
+<!-- 3. HIGHLIGHTS -->
+<section class="section highlights" id="highlights">
+  <div class="wrap">
+    <div class="split-head reveal">
+      <div>
+        <p class="eyebrow accent">FROM PREVIOUS EDITIONS</p>
+        <h2>A CHALLENGE WITH<br>YOUR NAME ON IT.</h2>
+      </div>
+      <p class="lede">A look back at the formats and moments that shaped Xpressions. Images are illustrative until verified photos from past editions are added.</p>
+    </div>
+    <div class="bento">
+      <figure class="tile tile-video reveal">
+        <video src="assets/stage.mp4" poster="assets/stage-poster.webp" autoplay muted loop playsinline aria-label="Clip of a lit stage during a cultural night"></video>
+        <button class="vid-toggle" aria-label="Pause video">❚❚</button>
+        <figcaption><small>CULTURAL NIGHT</small>The stage after dark</figcaption>
+      </figure>
+      <figure class="tile reveal" data-lightbox><img src="assets/case.webp" alt="Students presenting a case to a panel" loading="lazy"><figcaption><small>CASE &amp; SIMULATION</small>J.O.A.T.</figcaption></figure>
+      <figure class="tile reveal" data-lightbox><img src="assets/quiz.webp" alt="A microphone in front of a quiz audience" loading="lazy"><figcaption><small>QUIZ</small>Inquizzitive</figcaption></figure>
+      <figure class="tile reveal" data-lightbox><img src="assets/trade.webp" alt="A laptop showing a live market chart" loading="lazy"><figcaption><small>TRADING SIMULATION</small>Trade Wars</figcaption></figure>
+      <figure class="tile tile-wide reveal" data-lightbox><img src="assets/crowd.webp" alt="A crowd with raised hands under red stage lights" loading="lazy"><figcaption><small>LIVE</small>The crowd side</figcaption></figure>
+      <figure class="tile reveal" data-lightbox><img src="assets/poster-stage.webp" alt="Campaign poster reading My stage side, showing a dancer under red lights" loading="lazy"><figcaption><small>THIS EDITION'S CAMPAIGN</small>My stage side</figcaption></figure>
+      <figure class="tile reveal" data-lightbox><img src="assets/poster-compete.webp" alt="Campaign poster reading My competitive side, showing a student at a chessboard" loading="lazy"><figcaption><small>THIS EDITION'S CAMPAIGN</small>My competitive side</figcaption></figure>
+      <figure class="tile placeholder reveal"><div class="ph"><span>+</span>Add photo<br><small>Past edition winners</small></div></figure>
+      <figure class="tile placeholder reveal"><div class="ph"><span>+</span>Add photo<br><small>Dance or band performance</small></div></figure>
+      <figure class="tile placeholder tile-wide reveal"><div class="ph"><span>▶</span>Add aftermovie<br><small>Link or upload the previous edition's aftermovie</small></div></figure>
+    </div>
+    <div class="stats reveal">
+      <div><b data-count="4">0</b><span>ways to take part</span></div>
+      <div><b data-count="3">0</b><span>flagship competition formats</span></div>
+      <div><b class="tba">TBA</b><span>participating colleges</span></div>
+      <div><b class="tba">TBA</b><span>expected footfall</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. PROGRAMME & VENUE -->
+<section class="section wrap" id="programme">
+  <div class="split-head reveal">
+    <div>
+      <p class="eyebrow accent">BEFORE YOU COMMIT</p>
+      <h2>PLAN YOUR <em>VISIT.</em></h2>
+    </div>
+    <p class="lede">A tentative shape of the festival. Dates, timings and reporting times will be published after confirmation from the organising team.</p>
+  </div>
+  <div class="prog">
+    <div class="schedule reveal">
+      <div class="day-tabs" role="tablist" aria-label="Festival days">
+        <button role="tab" aria-selected="true" data-day="0">Day 1</button>
+        <button role="tab" aria-selected="false" data-day="1">Day 2</button>
+        <button role="tab" aria-selected="false" data-day="2">Day 3</button>
+        <span class="badge">TENTATIVE</span>
+      </div>
+      <ol class="timeline" id="timeline"></ol>
+      <button class="btn btn-line" id="cal-btn" disabled>Add to calendar <i>＋</i></button>
+      <p class="fine dark">Calendar export turns on once dates are confirmed.</p>
+    </div>
+    <div class="venue reveal">
+      <div class="map" aria-hidden="true">
+        <svg viewBox="0 0 400 260">
+          <defs><pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="#d9d2c6" stroke-width="1"/></pattern></defs>
+          <rect width="400" height="260" fill="#ece5d9"/>
+          <rect width="400" height="260" fill="url(#grid)"/>
+          <path class="road" d="M-10 200 C 90 180 150 120 230 130 S 360 90 420 60"/>
+          <path class="road thin" d="M120 -10 C 130 80 150 160 170 270"/>
+          <path class="route" d="M30 196 C 100 178 150 124 210 128"/>
+          <rect x="190" y="88" width="70" height="44" rx="4" fill="#10182b"/>
+          <text x="225" y="115" text-anchor="middle" fill="#f4efe6" font-size="13" font-family="Anton, Arial Narrow, sans-serif" letter-spacing="1">XIMB</text>
+        </svg>
+        <span class="pin"><span></span></span>
+      </div>
+      <h3>XIMB, Xavier Square</h3>
+      <p>Xavier University Bhubaneswar campus, Bhubaneswar, Odisha. Event rooms, entry gate and reporting desk details are TBA.</p>
+      <div class="venue-actions">
+        <a class="btn btn-sm" href="https://www.google.com/maps/search/?api=1&amp;query=XIMB%20Xavier%20Square%20Bhubaneswar" target="_blank" rel="noopener">Open in Maps <i>↗</i></a>
+        <button class="btn btn-sm btn-line" id="copy-address">Copy address</button>
+      </div>
+      <dl class="facts">
+        <div><dt>Getting here</dt><dd>Bhubaneswar is served by Biju Patnaik International Airport and Bhubaneswar railway station. Detailed travel guidance is TBA.</dd></div>
+        <div><dt>Stay</dt><dd>Accommodation for visiting teams: TBA</dd></div>
+        <div><dt>Entry &amp; ID</dt><dd>Carry a valid college ID. Final entry rules: TBA</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- 5. REGISTRATION -->
+<section class="interest" id="interest">
+  <div class="wrap">
+    <div class="split-head reveal">
+      <div>
+        <p class="eyebrow">PARTICIPATION</p>
+        <h2>YOUR XPRESSIONS<br><em>STARTS HERE.</em></h2>
+      </div>
+      <p class="lede">Registrations have not opened yet. Register your interest and we'll send you updates for the events you pick.</p>
+    </div>
+
+    <ol class="journey reveal" aria-label="How registration works">
+      <li><b>01</b><strong>Discover</strong><span>Find an event from a post, group message or poster QR.</span></li>
+      <li><b>02</b><strong>Explore</strong><span>Understand the format and who can take part.</span></li>
+      <li><b>03</b><strong>Decide</strong><span>Check rules, dates and fees. Unconfirmed details show TBA.</span></li>
+      <li class="now"><b>04</b><strong>Act</strong><span>Register interest now, or the full registration once it opens.</span></li>
+      <li><b>05</b><strong>Confirm</strong><span>Get an acknowledgement of what you submitted and what's next.</span></li>
+    </ol>
+
+    <div class="reg">
+      <form class="form reveal" id="interest-form" novalidate>
+        <h3>Register my interest</h3>
+        <div class="field"><label for="f-name">Name</label><input id="f-name" name="name" autocomplete="name" required placeholder="Your full name"></div>
+        <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required placeholder="you@college.edu"></div>
+        <div class="field"><label for="f-college">College or organisation</label><input id="f-college" name="college" autocomplete="organization" required placeholder="e.g. XIMB"></div>
+        <fieldset class="field">
+          <legend>I'm interested in</legend>
+          <div class="chips" id="interest-chips">
+            <label><input type="checkbox" name="interests" value="Compete" id="i-compete"><span>Compete</span></label>
+            <label><input type="checkbox" name="interests" value="Perform" id="i-perform"><span>Perform</span></label>
+            <label><input type="checkbox" name="interests" value="Watch" id="i-watch"><span>Watch</span></label>
+            <label><input type="checkbox" name="interests" value="Give back" id="i-give-back"><span>Give back</span></label>
+          </div>
+        </fieldset>
+        <p class="error" id="form-error" role="alert" hidden></p>
+        <button class="btn btn-full" type="submit">Register my interest <i>↗</i></button>
+        <p class="fine">Submitting interest does not confirm entry or participation.</p>
+        <div class="ack" id="ack" hidden tabindex="-1">
+          <svg viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="24"/><path d="M15 27l7 7 15-16"/></svg>
+          <h4>Thanks, <span id="ack-name"></span>.</h4>
+          <p>Your interest has been recorded. This does not confirm entry or participation.</p>
+          <p class="fine" id="ack-mode"></p>
+          <button class="btn btn-sm btn-line" type="button" id="ack-reset">Submit another response</button>
+        </div>
+      </form>
+      <div class="later reveal">
+        <p class="eyebrow">WHEN REGISTRATIONS OPEN</p>
+        <div class="later-card"><h4>Register for this competition</h4><p>For events accepting participant registrations. Eligibility, team size and fees appear on each event.</p><button class="btn btn-sm" disabled>Opens soon</button></div>
+        <div class="later-card"><h4>Get my pass</h4><p>For experiences that need a pass. Availability and price are TBA.</p><button class="btn btn-sm" disabled>Opens soon</button></div>
+        <a class="ext-form" id="ext-form" hidden target="_blank" rel="noopener">Prefer Google Forms? Open the interest form <i>↗</i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. FAQ + CONTACT -->
 <section class="section wrap" id="faq">
-<p class="eyebrow accent">05 / GOOD TO KNOW</p><h2>FAQs.</h2>
-<details><summary>When will the festival schedule be available?</summary><p>Dates and timings will be added under Plan your visit after organiser confirmation.</p></details>
-<details><summary>Can I participate as a team?</summary><p>Team sizes and eligibility vary by event. Check the event rules once they’re published.</p></details>
-<details><summary>Does registering interest reserve a spot?</summary><p>Interest submissions indicate that you’d like to participate or attend. Entry and competition registration follow the organisers’ confirmed process.</p></details>
-<details><summary>Where can I find contact and social links?</summary><p>Verified festival contact details and social links will be added after confirmation.</p></details>
+  <div class="faq-grid">
+    <div>
+      <p class="eyebrow accent">GOOD TO KNOW</p>
+      <h2>FAQs.</h2>
+      <div class="faqs">
+        <details><summary>When will the festival schedule be available?</summary><div><p>Dates and timings will be added under Plan your visit once the organising team confirms them. Register your interest to hear first.</p></div></details>
+        <details><summary>Who can participate?</summary><div><p>Most competitions are open to students from other colleges and B-schools. Eligibility varies by event and will be listed on each event card.</p></div></details>
+        <details><summary>Can I participate as a team?</summary><div><p>Team sizes vary by event. Check the event rules once they're published.</p></div></details>
+        <details><summary>Does registering interest reserve a spot?</summary><div><p>No. Interest submissions only tell us you'd like to participate or attend. Entry and competition registration follow the organisers' confirmed process.</p></div></details>
+        <details><summary>Is there a fee?</summary><div><p>Fees and deadlines will be shared per event after confirmation.</p></div></details>
+        <details><summary>Can I volunteer?</summary><div><p>Volunteer roles will be listed under Give Back if confirmed by the organisers. Pick Give back in the interest form to get updates.</p></div></details>
+      </div>
+    </div>
+    <aside class="contact">
+      <h3>Contact</h3>
+      <ul class="contact-list">
+        <li><small>Organising committee</small><span>Email: <em class="tba-text">to be added</em></span></li>
+        <li><small>Event queries</small><span>Phone: <em class="tba-text">to be added</em></span></li>
+        <li><small>Address</small><span>XIMB, Xavier Square, Jayadev Vihar, Bhubaneswar, Odisha</span></li>
+      </ul>
+      <h3>Follow Xpressions</h3>
+      <div class="socials">
+        <a href="#" class="soc" data-pending aria-label="Instagram (link to be added)"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>Instagram</a>
+        <a href="#" class="soc" data-pending aria-label="LinkedIn (link to be added)"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 10v7M8 7v.01M12 17v-4a2 2 0 0 1 4 0v4M12 10v7"/></svg>LinkedIn</a>
+        <a href="#" class="soc" data-pending aria-label="YouTube (link to be added)"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="M10 9l5 3-5 3z"/></svg>YouTube</a>
+      </div>
+      <p class="fine dark">Verified contact details and social links will be added after confirmation.</p>
+    </aside>
+  </div>
 </section>
+
 </main>
-<footer class="bar"><div class="wrap footer"><a class="brand" href="#home"><span>X</span>PRESSIONS</a><span>XIMB · BHUBANESWAR</span><span>GROUP 4 · PROJECT MICROSITE</span></div></footer>
+
+<footer class="bar foot">
+  <div class="wrap footer">
+    <a class="brand" href="#home"><span>X</span>PRESSIONS</a>
+    <span>XIMB · BHUBANESWAR</span>
+    <span>GROUP 4 · SEC A · PROJECT MICROSITE</span>
+    <a href="#home" class="top-link">Back to top ↑</a>
+  </div>
+</footer>
+
+<a class="sticky-cta btn" href="#interest">Register my interest <i>↗</i></a>
+
+<div class="modal" id="modal" hidden>
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="m-title">
+    <button class="modal-x" data-close aria-label="Close">✕</button>
+    <div class="m-media" id="m-media"></div>
+    <div class="m-body">
+      <p class="eyebrow accent" id="m-cat"></p>
+      <h3 id="m-title"></h3>
+      <p id="m-desc"></p>
+      <dl class="checklist" id="m-list"></dl>
+      <a class="btn" href="#interest" id="m-cta">Register my interest <i>↗</i></a>
+    </div>
+  </div>
+</div>
+
+<div class="lightbox" id="lightbox" hidden><button class="modal-x" aria-label="Close">✕</button><img alt=""><p></p></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<!--SITE-END-->
 </body>
 </html>
