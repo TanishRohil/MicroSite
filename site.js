@@ -7,8 +7,9 @@ const settings = {
     action: '',               // https://docs.google.com/forms/d/e/<FORM_ID>/formResponse
     fields: { name: '', email: '', college: '', interests: '' }, // entry.123456 IDs from a prefilled link
   },
-  festStart: '',              // Confirmed start, e.g. '2026-12-12T09:00:00+05:30'. Starts the countdown.
+  festStart: '2027-01-17T09:00:00+05:30', // DUMMY date for now. Replace with the confirmed start.
   festDays: 3,
+  visitCounter: 'https://abacus.jasoncameron.dev/hit/ximb-xpressions/microsite-visits', // free public counter
 };
 
 document.documentElement.classList.add('js');
@@ -88,20 +89,18 @@ setTimeout(() => $$('.reveal').forEach(el => el.classList.add('in')), 4000);
 // image width at its top and bottom edge (only for 'full' images; leave out to use a default).
 const heroSlides = [
   { image: 'assets/hero-main.webp', fit: 'full', position: '100% 50%', seam: [0.608, 0.826],
-    top: 'Good with numbers.', bottom: 'Better with a chorus.', label: 'ONE PERSON. DIFFERENT SIDES.' },
-  { image: 'assets/singer.webp', fit: 'right', position: '55% 35%',
-    top: 'Sharp in the case room.', bottom: 'Louder on the stage.', label: 'MY STAGE SIDE' },
-  { image: 'assets/crowd.webp', fit: 'right', position: '50% 50%',
-    top: 'Calm at the buzzer.', bottom: 'Wild in the crowd.', label: 'MY CROWD SIDE' },
+    top: 'Good with numbers.', bottom: 'Better with a chorus.', label: 'One person. Different sides.' },
+  { image: 'assets/hero-dance.webp', fit: 'right', position: '50% 40%',
+    top: 'Classical at heart.', bottom: 'Freestyle on stage.', label: 'My stage side' },
+  { image: 'assets/hero-runway.webp', fit: 'right', position: '50% 50%',
+    top: 'Boardroom ready.', bottom: 'Runway ready.', label: 'My spotlight side' },
 ];
-const SLIDE_MS = 6000;
+const SLIDE_MS = 4000;
 
 const art = $('#hero-art'), mover = $('.art-move', art);
 const underBox = $('.under', art), under = $('.layer', underBox);
 const curBox = $('.cur', art), halfA = $('.half-a', art), halfB = $('.half-b', art), rift = $('.rift', art);
-const seamLine = $('.seam line', art);
 const swap = $('#hero-caption'), dotsWrap = $('#slide-dots');
-const countEl = $('#slide-count'), labelEl = $('#slide-label');
 const natural = {};
 let cur = 0, busy = false, timer = null, paused = false, seamNow = [30, 62];
 
@@ -128,7 +127,6 @@ function applySeam(s) {
   seamNow = seamFor(s);
   curBox.style.setProperty('--s1', seamNow[0] + '%');
   curBox.style.setProperty('--s2', seamNow[1] + '%');
-  seamLine.setAttribute('x1', seamNow[0]); seamLine.setAttribute('x2', seamNow[1]);
 }
 function setFit(box, s) { box.dataset.fit = s.fit || 'full'; }
 
@@ -139,14 +137,10 @@ if (heroSlides.length < 2) $('#slide-ui').hidden = true;
 
 function setCaption(s, i) {
   swap.classList.add('out');
-  labelEl.style.opacity = 0;
   setTimeout(() => {
     $('.swap-a', swap).textContent = s.top;
     $('.swap-b', swap).textContent = s.bottom;
-    labelEl.textContent = s.label;
-    countEl.textContent = `${String(i + 1).padStart(2, '0')} / ${String(heroSlides.length).padStart(2, '0')}`;
     swap.classList.remove('out');
-    labelEl.style.opacity = 1;
   }, 380);
 }
 function setDots(i) {
@@ -297,6 +291,7 @@ if (start && !isNaN(start)) {
   const cd = $('#countdown');
   cd.classList.add('on');
   $('#date-label').textContent = start.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+  $('#eyebrow-date').textContent = 'FROM ' + start.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }).toUpperCase();
   const pad = n => String(n).padStart(2, '0');
   const tickCd = () => {
     let s = Math.max(0, Math.floor((start - Date.now()) / 1000));
@@ -321,7 +316,7 @@ const events = [
   { side: 'compete', cat: 'Trading simulation', name: 'Trade Wars', blurb: 'Put your market instincts to work.', img: 'assets/trade.webp', tag: 'PREVIOUS EDITION', desc: 'A simulated market where teams build and manage a portfolio as news breaks.' },
   { side: 'compete', cat: 'More challenges', name: 'Functional Events', blurb: 'Marketing, finance and HR challenges.', tag: 'TBA', desc: 'Additional management competitions will be listed here once the organising team confirms them.' },
   { side: 'perform', cat: 'Music', name: 'Battle of Sound', blurb: 'Solo voices and full bands.', img: 'assets/singer.webp', tag: 'TENTATIVE', desc: 'An intercollege music stage for solo artists and bands. Event name and format are placeholders.' },
-  { side: 'perform', cat: 'Dance', name: 'Dance Off', blurb: 'Solo, duet and crew formats.', img: 'assets/poster-stage.webp', tag: 'TENTATIVE', desc: 'Take the floor in solo or crew categories. Event name and format are placeholders.' },
+  { side: 'perform', cat: 'Dance', name: 'Dance Off', blurb: 'Solo, duet and crew formats.', img: 'assets/hero-dance.webp', tag: 'TENTATIVE', desc: 'Take the floor in solo or crew categories. Event name and format are placeholders.' },
   { side: 'perform', cat: 'Theatre', name: 'Stage & Street', blurb: 'Stage plays and street theatre.', tag: 'TENTATIVE', ph: '◐', desc: 'Short plays and nukkad natak performances. Event name and format are placeholders.' },
   { side: 'perform', cat: 'Open mic', name: 'Open Mic', blurb: 'Poetry, stand-up and storytelling.', tag: 'TENTATIVE', ph: '◎', desc: 'An open stage for spoken word, comedy and storytelling. Event name and format are placeholders.' },
   { side: 'watch', cat: 'Headline night', name: 'Pro Night', blurb: 'Live headline performance.', img: 'assets/crowd.webp', tag: 'ARTIST TBA', hot: true, desc: 'The headline act of the fest. Artist, timings and pass details will be announced.' },
@@ -334,36 +329,78 @@ const grid = $('#event-grid'), note = $('#tab-note');
 function media(ev) {
   return ev.img ? `<img src="${ev.img}" alt="" loading="lazy">` : `<div class="ph-art">${ev.ph || 'X'}<small>IMAGE PLACEHOLDER</small></div>`;
 }
-function render(side) {
-  const list = side === 'all' ? events : events.filter(e => e.side === side);
-  grid.innerHTML = list.map((ev, i) => `
-    <button class="ev" data-i="${events.indexOf(ev)}" style="animation-delay:${i * 55}ms">
-      <div class="ev-media">${media(ev)}<span class="tag${ev.hot ? ' hot' : ''}">${ev.tag}</span></div>
-      <div class="ev-body"><small>${sideLabel[ev.side]} · ${ev.cat}</small><h3>${ev.name}</h3><p>${ev.blurb}</p>
-      <div class="ev-more">Before you commit <span aria-hidden="true">+</span></div></div>
-    </button>`).join('');
+const sides = ['compete', 'perform', 'watch', 'give-back'];
+grid.innerHTML = events.map((ev, i) => `
+  <article class="ev" data-i="${i}" data-side="${ev.side}">
+    <div class="ev-media">${media(ev)}<span class="tag${ev.hot ? ' hot' : ''}">${ev.tag}</span></div>
+    <div class="ev-body"><small>${sideLabel[ev.side]} · ${ev.cat}</small><h3>${ev.name}</h3><p>${ev.blurb}</p>
+      <div class="ev-actions">
+        <button class="btn btn-sm" type="button" data-open>Before you commit</button>
+        <a class="btn btn-sm btn-line" href="#interest" data-reg>Register interest <i>↗</i></a>
+      </div>
+    </div>
+  </article>`).join('');
+const cards = $$('.ev', grid), tabs = $$('.tabs [role=tab]');
+const fill = $('#slider-fill'), prevBtn = $('#sl-prev'), nextBtn = $('#sl-next');
+const step = () => (cards[1]?.offsetLeft - cards[0].offsetLeft) || cards[0].offsetWidth;
+let jumping = false, jumpTimer;
+function scrollToCard(i) {
+  grid.scrollTo({ left: cards[i].offsetLeft - cards[0].offsetLeft, behavior: reduced ? 'auto' : 'smooth' });
 }
-render('all');
-$$('.tabs [role=tab]').forEach(tab => tab.addEventListener('click', () => {
-  $$('.tabs [role=tab]').forEach(t => t.setAttribute('aria-selected', String(t === tab)));
+function setTab(side) { tabs.forEach(t => t.setAttribute('aria-selected', String(t.dataset.side === side))); }
+function onSlide() {
+  const max = grid.scrollWidth - grid.clientWidth;
+  const p = max > 0 ? grid.scrollLeft / max : 0;
+  fill.style.width = (grid.clientWidth / grid.scrollWidth * 100 + p * (100 - grid.clientWidth / grid.scrollWidth * 100)) + '%';
+  prevBtn.disabled = grid.scrollLeft < 4;
+  nextBtn.disabled = grid.scrollLeft > max - 4;
+  if (jumping) return;
+  const first = cards.find(c => c.offsetLeft - cards[0].offsetLeft + c.offsetWidth / 2 > grid.scrollLeft) || cards[0];
+  setTab(p > .98 ? cards[cards.length - 1].dataset.side : first.dataset.side);
+}
+grid.addEventListener('scroll', onSlide, { passive: true });
+addEventListener('resize', onSlide);
+onSlide();
+prevBtn.addEventListener('click', () => grid.scrollBy({ left: -step() * Math.max(1, Math.floor(grid.clientWidth / step())), behavior: reduced ? 'auto' : 'smooth' }));
+nextBtn.addEventListener('click', () => grid.scrollBy({ left: step() * Math.max(1, Math.floor(grid.clientWidth / step())), behavior: reduced ? 'auto' : 'smooth' }));
+grid.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') { e.preventDefault(); grid.scrollBy({ left: step(), behavior: 'smooth' }); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); grid.scrollBy({ left: -step(), behavior: 'smooth' }); }
+});
+tabs.forEach(tab => tab.addEventListener('click', () => {
   const side = tab.dataset.side;
-  render(side);
-  const n = side === 'all' ? events.length : events.filter(e => e.side === side).length;
-  note.textContent = side === 'all'
-    ? 'Showing all experiences. Every listing is tentative until the organising team confirms it.'
-    : `${n} ${sideLabel[side].toLowerCase()} experiences. Details are tentative until confirmed.`;
-  if (side !== 'all') track('experience_select', { experience: side });
+  setTab(side);
+  jumping = true; clearTimeout(jumpTimer); jumpTimer = setTimeout(() => (jumping = false), 900);
+  scrollToCard(cards.findIndex(c => c.dataset.side === side));
+  const n = events.filter(e => e.side === side).length;
+  note.textContent = `${n} ${sideLabel[side].toLowerCase()} experiences. Details are tentative until confirmed.`;
+  track('experience_select', { experience: side });
 }));
+// Drag to scroll with a mouse
+(() => {
+  let down = false, sx = 0, sl = 0, moved = false;
+  grid.addEventListener('pointerdown', e => { if (e.pointerType !== 'mouse' || e.target.closest('a,button')) return; down = true; moved = false; sx = e.clientX; sl = grid.scrollLeft; grid.classList.add('dragging'); });
+  addEventListener('pointermove', e => { if (!down) return; const dx = e.clientX - sx; if (Math.abs(dx) > 4) moved = true; grid.scrollLeft = sl - dx; });
+  addEventListener('pointerup', () => { if (!down) return; down = false; grid.classList.remove('dragging'); });
+  grid.addEventListener('click', e => { if (moved) { e.stopPropagation(); e.preventDefault(); moved = false; } }, true);
+})();
+grid.addEventListener('click', e => {
+  const reg = e.target.closest('[data-reg]');
+  if (!reg) return;
+  const box = document.getElementById('i-' + reg.closest('.ev').dataset.side);
+  if (box) box.checked = true;
+});
 
 /* Modal */
 const modal = $('#modal');
 let lastFocus, modalSide;
 grid.addEventListener('click', e => {
-  const card = e.target.closest('.ev');
-  if (!card) return;
+  const btn = e.target.closest('[data-open]');
+  if (!btn) return;
+  const card = btn.closest('.ev');
   const ev = events[card.dataset.i];
   modalSide = ev.side;
-  lastFocus = card;
+  lastFocus = btn;
   $('#m-media').innerHTML = media(ev);
   $('#m-cat').textContent = `${sideLabel[ev.side]} · ${ev.cat}`;
   $('#m-title').textContent = ev.name;
@@ -435,21 +472,48 @@ $$('.day-tabs [role=tab]').forEach(b => b.addEventListener('click', () => {
   renderDay(+b.dataset.day);
 }));
 
-const calBtn = $('#cal-btn');
-if (start && !isNaN(start)) {
-  calBtn.disabled = false;
-  calBtn.nextElementSibling.hidden = true;
-  calBtn.addEventListener('click', () => {
-    const f = d => d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-    const end = new Date(start.getTime() + settings.festDays * 86400000);
-    const ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Xpressions//EN', 'BEGIN:VEVENT', 'UID:xpressions-' + start.getTime() + '@ximb',
-      'DTSTAMP:' + f(new Date()), 'DTSTART:' + f(start), 'DTEND:' + f(end), 'SUMMARY:Xpressions at XIMB', 'LOCATION:XIMB\\, Xavier Square\\, Bhubaneswar', 'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
+/* Add to calendar: Google Calendar link + .ics file for Apple Calendar / Outlook */
+(() => {
+  const g = $('#cal-google'), ics = $('#cal-ics');
+  if (!start || isNaN(start)) { g.hidden = ics.hidden = true; $('#cal-note').textContent = 'Calendar options appear once dates are confirmed.'; return; }
+  const end = new Date(start.getTime() + settings.festDays * 86400000);
+  const f = d => d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+  const title = 'Xpressions at XIMB', where = 'XIMB, Xavier Square, Jayadev Vihar, Bhubaneswar, Odisha';
+  const details = 'XIMB\'s management and cultural festival. Programme and timings: ' + location.href.split('#')[0] + '#programme';
+  g.href = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(title) +
+    '&dates=' + f(start) + '/' + f(end) + '&location=' + encodeURIComponent(where) + '&details=' + encodeURIComponent(details);
+  g.addEventListener('click', () => track('add_to_calendar', { method: 'google' }));
+  ics.addEventListener('click', () => {
+    const esc = t => t.replace(/[,;\\]/g, m => '\\' + m);
+    const body = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Xpressions XIMB//Microsite//EN', 'CALSCALE:GREGORIAN', 'BEGIN:VEVENT',
+      'UID:xpressions-' + start.getTime() + '@ximb.ac.in', 'DTSTAMP:' + f(new Date()), 'DTSTART:' + f(start), 'DTEND:' + f(end),
+      'SUMMARY:' + esc(title), 'LOCATION:' + esc(where), 'DESCRIPTION:' + esc(details),
+      'BEGIN:VALARM', 'TRIGGER:-P1D', 'ACTION:DISPLAY', 'DESCRIPTION:Xpressions starts tomorrow', 'END:VALARM',
+      'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
+    const url = URL.createObjectURL(new Blob([body], { type: 'text/calendar;charset=utf-8' }));
     const a = document.createElement('a');
-    a.href = URL.createObjectURL(new Blob([ics], { type: 'text/calendar' }));
-    a.download = 'xpressions.ics'; a.click();
-    track('add_to_calendar');
+    a.href = url; a.download = 'xpressions-ximb.ics';
+    document.body.append(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+    toast('Calendar file downloaded. Open it to add the event.');
+    track('add_to_calendar', { method: 'ics' });
   });
-}
+})();
+
+/* Visitor counter: +1 on every page open */
+(async () => {
+  const el = $('#visit-count');
+  try {
+    const r = await fetch(settings.visitCounter, { cache: 'no-store' });
+    const { value } = await r.json();
+    if (typeof value !== 'number') throw 0;
+    const t0 = performance.now(), from = Math.max(0, value - 40);
+    const fmt = n => n.toLocaleString('en-IN');
+    const anim = t => { const p = Math.min(1, (t - t0) / 900); el.textContent = fmt(Math.round(from + (value - from) * (1 - Math.pow(1 - p, 3)))); if (p < 1) requestAnimationFrame(anim); };
+    reduced ? (el.textContent = fmt(value)) : requestAnimationFrame(anim);
+    el.classList.add('on');
+  } catch { el.textContent = 'Live soon'; }
+})();
 
 async function copyText(text, msg) {
   try { await navigator.clipboard.writeText(text); toast(msg); }

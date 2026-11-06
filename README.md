@@ -17,7 +17,8 @@ Edit `heroSlides` in site.js. Each slide has `image` (put files in assets/), `po
 - `measurementId`: GA4 web stream ID (G-XXXX).
 - `googleForm.action` + `fields`: make the on-page form save to Google Forms. Open your form > Get prefilled link, fill dummy values, copy the link, and take each `entry.NNNN` ID for name, email, college and interests. Set `action` to the form URL with `/viewform` replaced by `/formResponse`. Until this is set, the form runs in preview mode and says so after submit.
 - `interestFormUrl`: optional public Google Form link, shown as a fallback link.
-- `festStart`: confirmed start date and time (e.g. `2026-12-12T09:00:00+05:30`). This starts the countdown, fills the date chip and turns on Add to calendar.
+- `festStart`: currently a DUMMY date (17 Jan 2027). Replace with the confirmed start. It drives the countdown, the date chip, the hero eyebrow and both Add to calendar options (Google Calendar link and .ics file).
+- `visitCounter`: free Abacus counter (abacus.jasoncameron.dev). Every page open adds 1 and shows the total under Site visits. Change the namespace/key in the URL to start a fresh count.
 - Replace TBA text, the tentative event names (Battle of Sound, Dance Off, Stage & Street, Open Mic, Pro Night, Fest Zone, Fest Crew, Cause Drive) and placeholder tiles once the organising team confirms them.
 - Add real contact email/phone and social URLs in the FAQ section of index.html (remove `data-pending` from each social link).
 - Paste the Search Console verification meta tag in the head.

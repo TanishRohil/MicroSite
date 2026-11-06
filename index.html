@@ -47,16 +47,14 @@
         <div class="layer half half-a"></div>
         <div class="layer half half-b"></div>
         <div class="rift"></div>
-        <svg class="seam" viewBox="0 0 100 100" preserveAspectRatio="none"><line x1="30" y1="-2" x2="62" y2="102"/></svg>
       </div>
     </div>
   </div>
   <div class="slide-ui" id="slide-ui">
-    <p class="slide-tag"><span id="slide-count">01 / 03</span><b id="slide-label">ONE PERSON. DIFFERENT SIDES.</b></p>
     <div class="slide-dots" id="slide-dots" role="tablist" aria-label="Hero images"></div>
   </div>
   <div class="wrap hero-copy">
-    <p class="eyebrow"><span class="dot"></span>XIMB · XAVIER SQUARE, BHUBANESWAR <b>/</b> DATES TO BE ANNOUNCED</p>
+    <p class="eyebrow"><span class="dot"></span>XIMB · XAVIER SQUARE, BHUBANESWAR <b>/</b> <span id="eyebrow-date">DATES TO BE ANNOUNCED</span></p>
     <h1><span class="line"><span>BRING YOUR</span></span><span class="line"><em>OTHER SIDE.</em></span></h1>
     <p class="intro">Business challenges. Creative performances. Live entertainment.</p>
     <p class="swap" id="hero-caption" aria-live="polite"><span class="swap-a">Good with numbers.</span> <span class="swap-b">Better with a chorus.</span></p>
@@ -69,6 +67,7 @@
       <li><small>Venue</small><strong>XIMB campus</strong></li>
       <li><small>Dates</small><strong id="date-label">TBA</strong></li>
       <li><small>Registrations</small><strong><span class="live"></span>Interest open</strong></li>
+      <li><small>Site visits</small><strong id="visit-count" class="visits">····</strong></li>
     </ul>
     <div class="countdown" id="countdown" aria-label="Countdown to Xpressions">
       <div><b data-cd="d">--</b><small>days</small></div>
@@ -89,22 +88,6 @@
   </div>
 </div>
 
-<!-- Positioning -->
-<section class="section wrap pillars-sec" id="about">
-  <div class="split-head reveal">
-    <div>
-      <p class="eyebrow accent">THE FEST</p>
-      <h2>WHERE AMBITION<br>MEETS <em>EXPRESSION.</em></h2>
-    </div>
-    <p class="lede">The challenge of a B-school fest. The energy of a cultural festival. Test your ideas against other teams, take your talent to an intercollege stage, or come for the live performances, all in one festival.</p>
-  </div>
-  <div class="pillars">
-    <article class="pillar reveal tilt"><span class="glyph" aria-hidden="true">◆</span><h3>Challenge</h3><p>Management competitions grounded in XIMB's B-school identity.</p></article>
-    <article class="pillar reveal tilt"><span class="glyph" aria-hidden="true">✦</span><h3>Expression</h3><p>Opportunities to perform and enjoy interests beyond academics.</p></article>
-    <article class="pillar reveal tilt"><span class="glyph" aria-hidden="true">●</span><h3>Community</h3><p>A meeting point for visiting teams, local college students and the XIMB community.</p></article>
-  </div>
-</section>
-
 <!-- 2. EVENTS: competitions, performances, speakers, attractions -->
 <section class="section events-sec" id="explore">
   <div class="wrap">
@@ -113,17 +96,23 @@
         <p class="eyebrow accent">YOUR FEST. YOUR WAY.</p>
         <h2>FIND YOUR <em>X.</em></h2>
       </div>
-      <p class="lede">Pick a side. Or discover a new one. Tap any event to see what you need to know before you commit.</p>
+      <p class="lede">Pick a side. Or discover a new one. Swipe through the lineup, or jump to a side.</p>
     </div>
     <div class="tabs" role="tablist" aria-label="Festival experiences">
-      <button role="tab" data-side="all" aria-selected="true"><small>ALL</small><strong>EVERYTHING</strong><span>See the full lineup</span></button>
-      <button role="tab" data-side="compete" aria-selected="false"><small>01</small><strong>COMPETE</strong><span>For your competitive side</span></button>
+      <button role="tab" data-side="compete" aria-selected="true"><small>01</small><strong>COMPETE</strong><span>For your competitive side</span></button>
       <button role="tab" data-side="perform" aria-selected="false"><small>02</small><strong>PERFORM</strong><span>For your stage side</span></button>
       <button role="tab" data-side="watch" aria-selected="false"><small>03</small><strong>WATCH</strong><span>For your crowd side</span></button>
       <button role="tab" data-side="give-back" aria-selected="false"><small>04</small><strong>GIVE BACK</strong><span>For your giving side</span></button>
     </div>
-    <p class="tab-note" id="tab-note" aria-live="polite">Showing all experiences. Every listing is tentative until the organising team confirms it.</p>
-    <div class="event-grid" id="event-grid"></div>
+    <div class="slider">
+      <div class="slider-track" id="event-grid" tabindex="0" role="region" aria-label="Festival events, scroll sideways"></div>
+    </div>
+    <div class="slider-ctrl">
+      <p class="tab-note" id="tab-note" aria-live="polite">Every listing is tentative until the organising team confirms it.</p>
+      <div class="slider-bar" aria-hidden="true"><span id="slider-fill"></span></div>
+      <button class="sl-btn" id="sl-prev" aria-label="Previous events">←</button>
+      <button class="sl-btn" id="sl-next" aria-label="Next events">→</button>
+    </div>
   </div>
 </section>
 
@@ -153,12 +142,6 @@
       <figure class="tile placeholder reveal"><div class="ph"><span>+</span>Add photo<br><small>Dance or band performance</small></div></figure>
       <figure class="tile placeholder tile-wide reveal"><div class="ph"><span>▶</span>Add aftermovie<br><small>Link or upload the previous edition's aftermovie</small></div></figure>
     </div>
-    <div class="stats reveal">
-      <div><b data-count="4">0</b><span>ways to take part</span></div>
-      <div><b data-count="3">0</b><span>flagship competition formats</span></div>
-      <div><b class="tba">TBA</b><span>participating colleges</span></div>
-      <div><b class="tba">TBA</b><span>expected footfall</span></div>
-    </div>
   </div>
 </section>
 
@@ -180,8 +163,11 @@
         <span class="badge">TENTATIVE</span>
       </div>
       <ol class="timeline" id="timeline"></ol>
-      <button class="btn btn-line" id="cal-btn" disabled>Add to calendar <i>＋</i></button>
-      <p class="fine dark">Calendar export turns on once dates are confirmed.</p>
+      <div class="cal-row">
+        <a class="btn btn-line" id="cal-google" target="_blank" rel="noopener" href="#">Add to Google Calendar <i>↗</i></a>
+        <button class="btn btn-line" id="cal-ics" type="button">Apple / Outlook (.ics) <i>＋</i></button>
+      </div>
+      <p class="fine dark" id="cal-note">Dates shown are placeholders until the organising team confirms them.</p>
     </div>
     <div class="venue reveal">
       <div class="map" aria-hidden="true">
@@ -222,14 +208,6 @@
       </div>
       <p class="lede">Registrations have not opened yet. Register your interest and we'll send you updates for the events you pick.</p>
     </div>
-
-    <ol class="journey reveal" aria-label="How registration works">
-      <li><b>01</b><strong>Discover</strong><span>Find an event from a post, group message or poster QR.</span></li>
-      <li><b>02</b><strong>Explore</strong><span>Understand the format and who can take part.</span></li>
-      <li><b>03</b><strong>Decide</strong><span>Check rules, dates and fees. Unconfirmed details show TBA.</span></li>
-      <li class="now"><b>04</b><strong>Act</strong><span>Register interest now, or the full registration once it opens.</span></li>
-      <li><b>05</b><strong>Confirm</strong><span>Get an acknowledgement of what you submitted and what's next.</span></li>
-    </ol>
 
     <div class="reg">
       <form class="form reveal" id="interest-form" novalidate>
@@ -291,11 +269,9 @@
       </ul>
       <h3>Follow Xpressions</h3>
       <div class="socials">
-        <a href="#" class="soc" data-pending aria-label="Instagram (link to be added)"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>Instagram</a>
-        <a href="#" class="soc" data-pending aria-label="LinkedIn (link to be added)"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 10v7M8 7v.01M12 17v-4a2 2 0 0 1 4 0v4M12 10v7"/></svg>LinkedIn</a>
-        <a href="#" class="soc" data-pending aria-label="YouTube (link to be added)"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="M10 9l5 3-5 3z"/></svg>YouTube</a>
+        <a href="https://www.instagram.com/ximbxpressions?psln=dXdjOTYwaTBsMHRn" class="soc" target="_blank" rel="noopener" aria-label="Xpressions on Instagram"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>Instagram</a>
       </div>
-      <p class="fine dark">Verified contact details and social links will be added after confirmation.</p>
+      <p class="fine dark">Follow @ximbxpressions for announcements. Verified contact details will be added after confirmation.</p>
     </aside>
   </div>
 </section>
