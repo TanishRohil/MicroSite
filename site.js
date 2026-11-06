@@ -2,10 +2,10 @@
    Fill these in before launch. Everything else works without them. */
 const settings = {
   measurementId: '',          // GA4 web stream ID, e.g. 'G-ABC123XYZ'
-  interestFormUrl: '',        // Optional public Google Form link (forms.gle/... or docs.google.com/forms/...)
-  googleForm: {               // Optional: send the on-page form straight into Google Forms
-    action: '',               // https://docs.google.com/forms/d/e/<FORM_ID>/formResponse
-    fields: { name: '', email: '', college: '', interests: '', sides: '' }, // entry.123456 IDs, printed by tools/create-google-form.gs
+  interestFormUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSf5POAwJ4CLLn8W-3zHFE43xcd8k7fnvtP2oKUTKCsqTIRgaw/viewform',
+  googleForm: {
+    action: 'https://docs.google.com/forms/d/e/1FAIpQLSf5POAwJ4CLLn8W-3zHFE43xcd8k7fnvtP2oKUTKCsqTIRgaw/formResponse',
+    fields: { name: 'entry.1784363011', email: 'entry.1298956331', college: 'entry.1885792002', interests: 'entry.391021467', sides: 'entry.1806788598' },
   },
   festStart: '2027-01-17T09:00:00+05:30', // DUMMY date for now. Replace with the confirmed start.
   festDays: 3,
