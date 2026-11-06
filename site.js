@@ -7,7 +7,7 @@ const settings = {
     action: 'https://docs.google.com/forms/d/e/1FAIpQLSf5POAwJ4CLLn8W-3zHFE43xcd8k7fnvtP2oKUTKCsqTIRgaw/formResponse',
     fields: { name: 'entry.1784363011', email: 'entry.1298956331', college: 'entry.1885792002', interests: 'entry.391021467', sides: 'entry.1806788598' },
   },
-  festStart: '2027-01-17T09:00:00+05:30', // DUMMY date for now. Replace with the confirmed start.
+  festStart: '2027-01-17T09:00:00+05:30', // Tentative start date. Replace with the confirmed one.
   festDays: 3,
   visitCounter: 'https://abacus.jasoncameron.dev/hit/ximb-xpressions/microsite-visits', // free public counter
 };
@@ -92,7 +92,7 @@ const heroSlides = [
     top: 'Good with numbers.', bottom: 'Better with a chorus.', label: 'One person. Different sides.' },
   { image: 'assets/hero-dance.webp', fit: 'full', position: '100% 40%',
     top: 'Classical at heart.', bottom: 'Freestyle on stage.', label: 'My stage side' },
-  { image: 'assets/hero-runway.webp', fit: 'right', position: '50% 50%',
+  { image: 'assets/hero-runway.webp', fit: 'full', position: '75% 45%',
     top: 'Boardroom ready.', bottom: 'Runway ready.', label: 'My spotlight side' },
 ];
 const SLIDE_MS = 4000;
