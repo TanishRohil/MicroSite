@@ -270,6 +270,14 @@ h1{font-size:clamp(3.2rem,6.4vw,6.4rem);margin-bottom:1rem}
 .tile-wide{grid-column:span 2}
 .tile-tall{grid-row:span 2}
 .bento{grid-auto-flow:dense}
+.bento.celeb{grid-auto-rows:210px}
+.bento.celeb img{object-position:50% 25%}
+.partners{margin-top:clamp(2.5rem,5vw,3.5rem)}
+.partners ul{list-style:none;padding:0;margin:.4rem 0 0;display:grid;grid-template-columns:repeat(5,1fr);gap:.8rem}
+.partners li{background:#fff;border:1px solid var(--line);border-radius:4px;height:120px;display:flex;align-items:center;justify-content:center;padding:.8rem;min-width:0;transition:transform .3s var(--ease),box-shadow .3s}
+.partners li:hover{transform:translateY(-4px);box-shadow:0 14px 30px -18px rgba(16,24,43,.5)}
+.partners img{max-height:88px;max-width:100%;width:auto;height:auto;object-fit:contain}
+.partners .fine{margin-top:.9rem}
 .editions{list-style:none;padding:0;margin:0 0 2rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1rem;position:relative}
 .editions::before{content:"";position:absolute;left:0;right:0;top:1.35rem;height:2px;background:linear-gradient(90deg,var(--coral),rgba(255,91,85,.15))}
 .editions li{position:relative;padding-top:3rem;min-width:0}
@@ -356,6 +364,11 @@ h1{font-size:clamp(3.2rem,6.4vw,6.4rem);margin-bottom:1rem}
 .chips input:checked+span{background:var(--navy);color:var(--ivory)}
 .chips input:checked+span::before{transform:rotate(45deg);color:var(--coral)}
 .chips input:focus-visible+span{outline:3px solid #2aa3c4;outline-offset:2px}
+.event-picks{display:grid;gap:.9rem}
+.pick-group p{font:500 .66rem var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin:0 0 .4rem}
+.pick-group .chips span{padding:.42rem .8rem;font-size:.84rem}
+.ev-when{font:500 .66rem var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:.2rem}
+.checklist dd.tent{font-family:var(--body);font-style:italic}
 .error{color:var(--red);font-weight:700;font-size:.88rem}
 .ack{position:absolute;inset:0;background:var(--ivory);border-radius:4px;display:grid;place-content:center;justify-items:center;text-align:center;padding:2rem;gap:.6rem;animation:fade .5s var(--ease) both}
 .ack svg{width:64px;height:64px;fill:none;stroke:var(--coral);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
@@ -459,6 +472,8 @@ details>div>p{overflow:hidden;color:var(--muted);padding-bottom:1.1rem;max-width
   .bento{grid-auto-rows:160px}
   .tile-video{grid-row:span 2}
   .editions{grid-template-columns:1fr !important}
+  .partners ul{grid-template-columns:repeat(2,1fr)}
+  .bento.celeb{grid-auto-rows:170px}
   .editions::before{left:6px;right:auto;top:1rem;bottom:1rem;width:2px;height:auto}
   .editions li{padding:0 0 0 2rem}
   .editions li::before{top:.4rem}

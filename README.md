@@ -15,9 +15,9 @@ Edit `heroSlides` in site.js. Each slide has `image` (put files in assets/), `po
 
 ## Before launch (edit `settings` at the top of site.js)
 - `measurementId`: GA4 web stream ID (G-XXXX).
-- `googleForm.action` + `fields`: make the on-page form save to Google Forms. Open your form > Get prefilled link, fill dummy values, copy the link, and take each `entry.NNNN` ID for name, email, college and interests. Set `action` to the form URL with `/viewform` replaced by `/formResponse`. Until this is set, the form runs in preview mode and says so after submit.
+- **Google Form (interest):** open https://script.google.com, create a new project, paste `tools/create-google-form.gs`, run `createXpressionsForm`, then copy the printed `interestFormUrl` and `googleForm` block into the settings at the top of site.js. The on-page form then sends name, email, college and each selected event straight into the Google Form (Responses > Link to Sheets for a spreadsheet). Until this is set, the form runs in preview mode and says so after submit.
 - `interestFormUrl`: optional public Google Form link, shown as a fallback link.
-- `festStart`: currently a DUMMY date (17 Jan 2027). Replace with the confirmed start. It drives the countdown, the date chip, the hero eyebrow and both Add to calendar options (Google Calendar link and .ics file).
+- `festStart`: currently a tentative date (17 to 19 Jan 2027). Replace with the confirmed start. It drives the countdown, the date chip, the hero eyebrow and both Add to calendar options (Google Calendar link and .ics file).
 - `visitCounter`: free Abacus counter (abacus.jasoncameron.dev). Every page open adds 1 and shows the total under Site visits. Change the namespace/key in the URL to start a fresh count.
 - Events in the Find Your X carousel are real Xpressions events from past editions (2016 to 2024 coverage), sorted into Compete, Perform, Watch and Give back. Confirm which run this edition and update `events` in site.js.
 - Past-edition photos in Blast from the Past are linked from news sites (PaGaLGuY, Youth Incorporated, OfficeChai, XIM University). If one fails to load, a local illustration shows instead. For permanence, download originals into assets/ and point the img src at them.

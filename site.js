@@ -5,7 +5,7 @@ const settings = {
   interestFormUrl: '',        // Optional public Google Form link (forms.gle/... or docs.google.com/forms/...)
   googleForm: {               // Optional: send the on-page form straight into Google Forms
     action: '',               // https://docs.google.com/forms/d/e/<FORM_ID>/formResponse
-    fields: { name: '', email: '', college: '', interests: '' }, // entry.123456 IDs from a prefilled link
+    fields: { name: '', email: '', college: '', interests: '', sides: '' }, // entry.123456 IDs, printed by tools/create-google-form.gs
   },
   festStart: '2027-01-17T09:00:00+05:30', // DUMMY date for now. Replace with the confirmed start.
   festDays: 3,
@@ -90,7 +90,7 @@ setTimeout(() => $$('.reveal').forEach(el => el.classList.add('in')), 4000);
 const heroSlides = [
   { image: 'assets/hero-main.webp', fit: 'full', position: '100% 50%', seam: [0.608, 0.826],
     top: 'Good with numbers.', bottom: 'Better with a chorus.', label: 'One person. Different sides.' },
-  { image: 'assets/hero-dance.webp', fit: 'right', position: '50% 40%',
+  { image: 'assets/hero-dance.webp', fit: 'full', position: '100% 40%',
     top: 'Classical at heart.', bottom: 'Freestyle on stage.', label: 'My stage side' },
   { image: 'assets/hero-runway.webp', fit: 'right', position: '50% 50%',
     top: 'Boardroom ready.', bottom: 'Runway ready.', label: 'My spotlight side' },
@@ -290,8 +290,9 @@ const start = settings.festStart ? new Date(settings.festStart) : null;
 if (start && !isNaN(start)) {
   const cd = $('#countdown');
   cd.classList.add('on');
-  $('#date-label').textContent = start.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
-  $('#eyebrow-date').textContent = 'FROM ' + start.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }).toUpperCase();
+  const last = new Date(start.getTime() + (settings.festDays - 1) * 86400000);
+  $('#date-label').textContent = `${start.getDate()} to ${last.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}`;
+  $('#eyebrow-date').textContent = `${start.getDate()} TO ${last.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }).toUpperCase()} (TENTATIVE)`;
   const pad = n => String(n).padStart(2, '0');
   const tickCd = () => {
     let s = Math.max(0, Math.floor((start - Date.now()) / 1000));
@@ -303,56 +304,48 @@ if (start && !isNaN(start)) {
 }
 
 /* ---------- Events ---------- */
+// "Before you commit" details. All values are tentative estimates until the organising team confirms them.
 const checklists = {
-  compete: ['Eligibility', 'Team size', 'Format & rounds', 'Judging criteria', 'Fees & deadlines'],
-  perform: ['Solo / team format', 'Selection process', 'Performance duration', 'Equipment', 'Reporting time'],
-  watch: ['Confirmed lineup', 'Timings', 'Pass availability & price', 'ID & entry rules'],
-  'give-back': ['Activity & cause', 'Eligibility', 'Time commitment', 'How to join'],
+  compete: { 'Team size': '2 to 3 members', 'Format & rounds': 'Online prelims, on-campus finals', 'Judging': 'Analysis, creativity and presentation', 'Registration closes': '10 Jan 2027' },
+  perform: { 'Format': 'Solo or team', 'Selection': 'Online video round by 5 Jan 2027', 'Slot length': '8 to 12 minutes', 'Equipment': 'Sound system and basic backline provided', 'Reporting time': '1 hour before your slot' },
+  watch: { 'Lineup reveal': 'Late December 2026', 'Timings': '8 pm onwards', 'Passes': 'From 5 Jan 2027', 'Entry': 'Valid college ID, single entry' },
+  'give-back': { 'Time commitment': 'Half a day', 'How to join': 'Tick it in the interest form below', 'Registration closes': '10 Jan 2027' },
 };
 const sideLabel = { compete: 'Compete', perform: 'Perform', watch: 'Watch', 'give-back': 'Give back' };
-// Real Xpressions events from past editions (2016, 2019, 2022, 2024 coverage). This edition's lineup is TBA.
+// The 11 Xpressions events the team chose to feature, with photos from past editions. `when` and `facts` are tentative.
 const events = [
-  // COMPETE: business, case, simulation and quiz events
-  { side: 'compete', cat: 'Case & simulation', name: 'J.O.A.T.', blurb: 'Jack of All Trades. X-STEC\'s flagship case and simulation challenge.', img: 'assets/case.webp', tag: 'FLAGSHIP', desc: 'Jack of All Trades is the flagship event of X-STEC, the Xpressions Steering Committee: a national-level case study and simulation game that tests you across business functions.' },
-  { side: 'compete', cat: 'Quiz', name: 'Inquizzitive', blurb: 'The flagship quiz, with business and general rounds.', img: 'assets/quiz.webp', tag: 'FLAGSHIP', desc: 'Xpressions\' flagship quizzing competition, run by Xquizzite, XIMB\'s quiz club. Past editions have had both a business quiz and a general quiz.' },
-  { side: 'compete', cat: 'Trading simulation', name: 'Trade Wars', blurb: 'An online trading simulation. Back your market calls.', img: 'assets/trade.webp', tag: 'SINCE 2016', desc: 'An online trading simulation where teams manage a portfolio as the market moves. A regular since at least 2016.' },
-  { side: 'compete', cat: 'Debate', name: 'XIMB MUN', blurb: 'Model United Nations, run by Speak Up across all three days.', tag: 'RETURNING', ph: '◎', desc: 'XIMB\'s Model United Nations, organised by Speak Up, the oratory club. Committees debate global issues over the three days of the fest.' },
-  { side: 'compete', cat: 'Case study', name: 'Maven', blurb: 'A national-level case study competition by Constrat.', tag: 'RETURNING', ph: '◆', desc: 'A national-level case study competition organised by Constrat, XIMB\'s consulting and strategy association.' },
-  { side: 'compete', cat: 'Marketing', name: 'Maxim Mela', blurb: 'A marketing fair by MAXIM, the marketing association.', tag: 'RETURNING', ph: '✦', desc: 'A marketing research and activity fair organised by MAXIM, XIMB\'s marketing association.' },
-  { side: 'compete', cat: 'Gaming', name: 'Xigabytes', blurb: 'The gaming event by X-Sys, the systems association.', tag: 'RETURNING', ph: '▶', desc: 'A gaming competition run by X-Sys, the systems association, over the three days of the fest.' },
-  { side: 'compete', cat: 'Finance', name: 'FinBid', blurb: 'A bidding game by X-Fin that tests strategic thinking.', tag: 'RETURNING', ph: '₹', desc: 'A bidding session run by X-Fin, the finance association, that tests your strategic thinking.' },
-  { side: 'compete', cat: 'Pitching', name: 'Pitch It Abroad', blurb: 'A pitching contest by the International Relations committee.', tag: 'RETURNING', ph: '↗', desc: 'A pitching competition organised by XIMB\'s International Relations committee.' },
-  // PERFORM: stage and creative competitions
-  { side: 'perform', cat: 'Dance', name: 'Thirkan', blurb: 'The dance competition. Solo or crew, take the floor.', img: 'assets/hero-dance.webp', tag: 'STAGE', desc: 'Xpressions\' dance competition, held on the main stage.' },
-  { side: 'perform', cat: 'Singing & music', name: 'Goonj', blurb: 'The marquee music competition held at every Xpressions.', img: 'assets/singer.webp', tag: 'STAGE', desc: 'The marquee music competition held at every Xpressions. Past editions have featured solo singers and instrumentalists.' },
-  { side: 'perform', cat: 'Battle of bands', name: 'Decibelz', blurb: 'The band hunt. Bring your band to an intercollege stage.', tag: 'STAGE', ph: '♪', desc: 'The band competition. In 2016 it was won by Hidden Identity, a band from Kolkata.' },
-  { side: 'perform', cat: 'Fashion show', name: 'Carnival De Vogue', blurb: 'The fest\'s high-fashion runway show.', img: 'assets/hero-runway.webp', tag: 'STAGE', desc: 'The fashion show of Xpressions, a fixture on the stage lineup in every edition.' },
-  { side: 'perform', cat: 'Street play', name: 'Aaghaz', blurb: 'Nukkad natak on social issues.', tag: 'STAGE', ph: '◐', desc: 'A street play (nukkad natak) competition on social themes. Teams from KIIT and IBS have won in past editions.' },
-  { side: 'perform', cat: 'Rap battle', name: 'Rap It Up', blurb: 'Teams from across colleges go bar for bar.', tag: 'STAGE', ph: '✕', desc: 'A rap battle where teams from various colleges compete on stage.' },
-  { side: 'perform', cat: 'Instrumental', name: 'Dhoon', blurb: 'The instrumental competition.', tag: 'STAGE', ph: '♫', desc: 'A competition for instrumentalists.' },
-  { side: 'perform', cat: 'Art', name: 'Paint@XIMB', blurb: 'The painting competition.', tag: 'CREATIVE', ph: '✎', desc: 'A painting competition held on campus during the fest.' },
-  { side: 'perform', cat: 'Face painting', name: 'Pratibimb', blurb: 'The face painting competition.', tag: 'CREATIVE', ph: '☺', desc: 'A face painting competition.' },
-  // WATCH: nights, shows and campus attractions
-  { side: 'watch', cat: 'Celebrity night', name: 'Celeblitz', blurb: 'The headline concert that closes the fest.', img: 'https://media.youthincmag.com/images/ad569457-84ef-4043-8eba-56eab794ec34/large.webp', fb: 'assets/crowd.webp', tag: 'ARTIST TBA', hot: true, desc: 'The celebrity night. Past headliners include Shankar-Ehsaan-Loy (2016, 20,000+ crowd), Mika Singh (2019), Vishal-Sheykhar (2023) and Darshan Raval (2024). This edition\'s artist is TBA.' },
-  { side: 'watch', cat: 'DJ night', name: 'Sunburn Campus', blurb: 'The EDM night, with DJs on the main stage.', img: 'https://www.pagalguy.com/wp-content/uploads/2023/01/IMG-20230123-WA0013-450x300.jpg', fb: 'assets/crowd.webp', tag: 'LINEUP TBA', desc: 'The 2022 edition had a Sunburn Campus night with Olly Esse and Zephyrtone. This edition\'s lineup is TBA.' },
-  { side: 'watch', cat: 'Comedy night', name: 'Stand-up Night', blurb: 'A headline stand-up set to close a fest day.', tag: 'COMIC TBA', ph: '“', desc: 'Past editions have closed a fest day with stand-up from comedians such as Karunesh Talwar and Aakash Gupta.' },
-  { side: 'watch', cat: 'Campus attractions', name: 'Fun Zone', blurb: 'Zorbing, bungee basketball and rifle shooting.', tag: 'ON CAMPUS', ph: '●', desc: 'Campus activities from past editions include zorbing, bungee basketball and rifle shooting.' },
-  // GIVE BACK: social impact events by the Social Responsibility Cell
-  { side: 'give-back', cat: 'Inclusion', name: 'X-Enable', blurb: 'A sports event for specially-abled children.', tag: 'SRC', ph: '+', desc: 'An annual sports event for specially-abled children, organised by XIMB\'s Social Responsibility Cell.' },
-  { side: 'give-back', cat: 'Run', name: 'Xathon', blurb: 'A run for a cause before the fest.', tag: 'SRC', ph: '♥', desc: 'A fundraising run held around the fest. The 2019 theme was "Run a mile, Spread a smile"; in 2021 it was a pan-India walk for disability rights with 459 participants.' },
-  { side: 'give-back', cat: 'CSR case', name: 'Vriddhi', blurb: 'A national-level CSR action plan competition.', tag: 'SRC', ph: '↑', desc: 'A national-level case competition on CSR action plans, run by the Social Responsibility Cell.' },
+  // COMPETE
+  { side: 'compete', cat: 'Presentation', name: 'Board Room', when: 'Day 1 · 17 Jan, 2 pm', facts: { 'Team size': '3 members' },  blurb: 'Pitch your analysis to a panel of judges.', img: 'assets/ev-boardroom.webp', tag: 'PAST EDITION', desc: 'Teams present their strategy and competitor analysis to a panel of judges in a boardroom-style round. This edition: three-member teams, finals on 17 January 2027 (tentative).' },
+  { side: 'compete', cat: 'Case & simulation', name: 'J.O.A.T.', when: 'Day 1 to 3 · finals 19 Jan', facts: { 'Prize pool': '₹1 lakh (2023 edition)' },  blurb: 'Jack of All Trades. Enter the nexus of business brilliance.', img: 'assets/ev-joat.webp', pos: '50% 45%', tag: 'FLAGSHIP', desc: 'Jack of All Trades is X-STEC\'s flagship national-level case study and simulation game. The 2023 edition had a prize pool of ₹1 lakh.' },
+  { side: 'compete', cat: 'Model UN', name: 'XIMB MUN', when: 'Day 1 to 3 · 17 to 19 Jan', facts: { 'Team size': 'Individual delegates', 'Format & rounds': 'Three committee sessions' },  blurb: 'Represent a country. Debate, negotiate, resolve.', img: 'assets/ev-mun.webp', tag: 'RETURNING', desc: 'XIMB\'s Model United Nations, run by Speak Up, the oratory club. Delegates represent countries in committee sessions over the three days of the fest.' },
+  { side: 'compete', cat: 'Gaming', name: 'Xigabytes', when: 'Day 2 · 18 Jan, 10 am', facts: { 'Team size': 'Solo or squads of 5', 'Format & rounds': 'Knockout brackets, Exam Hall' },  blurb: 'Tournaments and walk-in gaming by X-Sys.', img: 'assets/ev-xigabytes.webp', tag: 'RETURNING', desc: 'The gaming event by X-Sys, the systems association, with tournaments and walk-in play in the Exam Hall. Past titles included FIFA, CS:GO, Mortal Kombat 11 and WWE.' },
+  { side: 'compete', cat: 'Marketing', name: 'Maxim Mela', when: 'Day 2 · 18 Jan, 11 am', facts: { 'Team size': '2 members', 'Format & rounds': 'Themed stalls and marketing games' },  blurb: 'A themed marketing fair by MAXIM.', img: 'assets/ev-maximmela.webp', tag: 'RETURNING', desc: 'The marketing fair run by MAXIM, XIMB\'s marketing association. A past edition was themed on Game of Thrones, complete with an Iron Throne.' },
+  // PERFORM
+  { side: 'perform', cat: 'Rap battle', name: 'Rap It Up', when: 'Day 2 · 18 Jan, 5 pm', facts: { 'Format': 'Solo or duo', 'Slot length': '3 to 4 minutes' },  blurb: 'Grab the mic. Go bar for bar.', img: 'assets/ev-rapitup.webp', pos: '50% 40%', tag: 'STAGE', desc: 'A rap battle where performers from colleges across the region compete.' },
+  { side: 'perform', cat: 'Battle of bands', name: 'Decibelz', when: 'Day 1 · 17 Jan, 7:30 pm', facts: { 'Format': 'Bands of 4 to 8', 'Slot length': '15 minutes' },  blurb: 'The band hunt on the main stage.', img: 'assets/ev-decibelz.webp', tag: 'STAGE', desc: 'The battle of the bands, organised by the Cultural Committee. In 2016 it was won by Hidden Identity, a band from Kolkata.' },
+  { side: 'perform', cat: 'Street play', name: 'Nukkad Natak', when: 'Day 1 · 17 Jan, 4 pm', facts: { 'Format': 'Teams of 8 to 20', 'Slot length': '10 to 12 minutes', 'Equipment': 'Open-air, no mics' },  blurb: 'Aaghaz. Street theatre with a message.', img: 'assets/ev-nukkad.webp', tag: 'STAGE', desc: 'Aaghaz, the street play competition, performed in the open outside the auditorium. Teams take on social themes; KIIT and IBS teams have won in past editions.' },
+  // WATCH
+  { side: 'watch', cat: 'DJ night', name: 'Sunburn Campus', when: 'Day 2 · 18 Jan, 8 pm',  blurb: 'The EDM night, with DJs on the main stage.', img: 'assets/ev-sunburn.webp', tag: 'DAY 2 · 8 PM', hot: true, desc: 'The 2022 edition had a Sunburn Campus night with Olly Esse and Zephyrtone. This edition\'s lineup is expected to be revealed in late December 2026 (tentative).' },
+  // GIVE BACK
+  { side: 'give-back', cat: 'Run', name: 'X-Athon', when: 'Day 3 · 19 Jan, 6:30 am', facts: { 'Distance': '10 km, with a shorter fun run', 'Time commitment': 'Morning, about 3 hours' },  blurb: 'The XIMB 10K marathon, for a cause.', img: 'assets/ev-xathon.webp', tag: 'SRC', desc: 'The XIMB 10K marathon, held around the fest. The 2019 theme was "Run a mile, Spread a smile"; in 2021 it was a pan-India walk for disability rights with 459 participants.' },
+  { side: 'give-back', cat: 'CSR case', name: 'Vriddhi', when: 'Day 2 · 18 Jan, 2 pm', facts: { 'Team size': '2 to 3 members', 'Format': 'CSR action plan, presented to a jury' },  blurb: 'A national-level CSR action plan competition.', img: 'assets/ev-vriddhi.webp', tag: 'SRC', desc: 'A national-level case competition on CSR action plans, run by the Social Responsibility Cell.' },
 ];
 const grid = $('#event-grid'), note = $('#tab-note');
 function media(ev) {
-  return ev.img ? `<img src="${ev.img}" alt="" loading="lazy"${ev.fb ? ` data-fallback="${ev.fb}" referrerpolicy="no-referrer"` : ''}>` : `<div class="ph-art">${ev.ph || 'X'}<small>IMAGE PLACEHOLDER</small></div>`;
+  return ev.img ? `<img src="${ev.img}" alt="" loading="lazy"${ev.pos ? ` style="object-position:${ev.pos}"` : ''}${ev.fb ? ` data-fallback="${ev.fb}" referrerpolicy="no-referrer"` : ''}>` : `<div class="ph-art">${ev.ph || 'X'}<small>IMAGE PLACEHOLDER</small></div>`;
 }
 grid.innerHTML = events.map((ev, i) => `
   <article class="ev" data-i="${i}" data-side="${ev.side}" aria-roledescription="slide" aria-label="${i + 1} of ${events.length}: ${ev.name}">
     <div class="ev-media">${media(ev)}<span class="tag${ev.hot ? ' hot' : ''}">${ev.tag}</span></div>
-    <div class="ev-body"><small>${sideLabel[ev.side]} · ${ev.cat}</small><h3>${ev.name}</h3><p>${ev.blurb}</p>
+    <div class="ev-body"><small>${sideLabel[ev.side]} · ${ev.cat}</small><h3>${ev.name}</h3><p>${ev.blurb}</p><span class="ev-when">${ev.when} · tentative</span>
       <div class="ev-actions"><button class="btn" type="button" data-open>Before you commit</button></div>
     </div>
   </article>`).join('');
+const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+// Interest form: one checkbox per event, grouped by side
+$('#interest-chips').innerHTML = ['compete', 'perform', 'watch', 'give-back'].map(side => `
+  <div class="pick-group"><p>${sideLabel[side]}</p><div class="chips">${events.filter(e => e.side === side).map(e =>
+    `<label><input type="checkbox" name="interests" value="${e.name}" data-side="${sideLabel[side]}" id="i-${slug(e.name)}"><span>${e.name}</span></label>`).join('')}</div></div>`).join('');
 const cflow = $('#cflow'), cards = $$('.ev', grid), tabs = $$('.tabs [role=tab]');
 const dotsEl = $('#cflow-dots'), countEl2 = $('#cflow-count');
 dotsEl.innerHTML = cards.map(() => '<span></span>').join('');
@@ -425,7 +418,7 @@ tabs.forEach(tab => tab.addEventListener('click', () => {
   const side = tab.dataset.side;
   goTo(cards.findIndex(c => c.dataset.side === side));
   const n = events.filter(e => e.side === side).length;
-  note.textContent = `${n} ${sideLabel[side].toLowerCase()} experiences. Details are tentative until confirmed.`;
+  note.textContent = `${n} ${sideLabel[side].toLowerCase()} ${n === 1 ? 'experience' : 'experiences'}. Details are tentative until confirmed.`;
   track('experience_select', { experience: side });
 }));
 addEventListener('resize', layout);
@@ -436,19 +429,20 @@ restartAuto();
 
 /* Modal */
 const modal = $('#modal');
-let lastFocus, modalSide;
+let lastFocus, modalSide, modalEvent;
 grid.addEventListener('click', e => {
   const btn = e.target.closest('[data-open]');
   if (!btn) return;
   const card = btn.closest('.ev');
   const ev = events[card.dataset.i];
-  modalSide = ev.side;
+  modalSide = ev.side; modalEvent = ev;
   lastFocus = btn;
   $('#m-media').innerHTML = media(ev);
   $('#m-cat').textContent = `${sideLabel[ev.side]} · ${ev.cat}`;
   $('#m-title').textContent = ev.name;
   $('#m-desc').textContent = ev.desc;
-  $('#m-list').innerHTML = checklists[ev.side].map(k => `<dt>${k}</dt><dd>TBA</dd>`).join('');
+  const facts = { When: ev.when, ...checklists[ev.side], ...(ev.facts || {}) };
+  $('#m-list').innerHTML = Object.entries(facts).map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('') + '<dt></dt><dd class="tent">All details are tentative.</dd>';
   modal.hidden = false;
   document.body.style.overflow = 'hidden';
   $('.modal-x', modal).focus();
@@ -458,7 +452,7 @@ function closeModal() { modal.hidden = true; document.body.style.overflow = ''; 
 $$('[data-close]', modal).forEach(b => b.addEventListener('click', closeModal));
 $('#m-cta').addEventListener('click', () => {
   closeModal();
-  const box = document.getElementById('i-' + modalSide);
+  const box = document.getElementById('i-' + slug(modalEvent.name));
   if (box) box.checked = true;
   setTimeout(() => $('#f-name').focus({ preventScroll: true }), 700);
 });
@@ -477,11 +471,13 @@ $$('img[data-fallback]').forEach(img => {
   if (img.complete && img.naturalWidth === 0) swapImg();
 });
 const vid = $('.tile-video video'), vbtn = $('.vid-toggle');
-if (reduced) { vid.pause(); vid.removeAttribute('autoplay'); vbtn.textContent = '▶'; vbtn.setAttribute('aria-label', 'Play video'); }
-vbtn.addEventListener('click', () => {
-  if (vid.paused) { vid.play(); vbtn.textContent = '❚❚'; vbtn.setAttribute('aria-label', 'Pause video'); }
-  else { vid.pause(); vbtn.textContent = '▶'; vbtn.setAttribute('aria-label', 'Play video'); }
-});
+if (vid && vbtn) {
+  if (reduced) { vid.pause(); vid.removeAttribute('autoplay'); vbtn.textContent = '▶'; vbtn.setAttribute('aria-label', 'Play video'); }
+  vbtn.addEventListener('click', () => {
+    if (vid.paused) { vid.play(); vbtn.textContent = '❚❚'; vbtn.setAttribute('aria-label', 'Pause video'); }
+    else { vid.pause(); vbtn.textContent = '▶'; vbtn.setAttribute('aria-label', 'Play video'); }
+  });
+}
 const lb = $('#lightbox');
 $$('[data-lightbox]').forEach(t => t.addEventListener('click', () => {
   const img = $('img', t);
@@ -503,22 +499,25 @@ $$('[data-count]').forEach(el => countObs.observe(el));
 
 /* ---------- Programme ---------- */
 const days = [
-  [['Morning', 'Inauguration', 'Opening ceremony and welcome for visiting teams.'],
-   ['Late morning', 'Competition preliminaries', 'Opening rounds for case, quiz and trading events.'],
-   ['Afternoon', 'Speaker session', 'Talk or panel with industry guests (speakers TBA).'],
-   ['Evening', 'Opening night', 'First cultural performances on the main stage.']],
-  [['Morning', 'Competition semi-finals', 'Shortlisted teams move to the next round.'],
-   ['Afternoon', 'Perform: music & dance', 'Intercollege music and dance events.'],
-   ['All day', 'Fest Zone', 'Food stalls, games and pop-ups across campus.'],
-   ['Evening', 'Cultural night', 'Theatre, open mic and performances.']],
-  [['Morning', 'Competition finals', 'Final presentations and rounds.'],
-   ['Afternoon', 'Prize distribution', 'Results and awards across events.'],
-   ['Evening', 'Pro Night', 'Headline performance to close the fest (artist TBA).']],
+  [['9:30 am', 'Inauguration', 'Opening ceremony in the Auditorium.'],
+   ['10:30 am', 'J.O.A.T. and XIMB MUN begin', 'Case and simulation prelims; MUN committee session 1.'],
+   ['2:00 pm', 'Board Room', 'Teams pitch to the judging panel.'],
+   ['4:00 pm', 'Nukkad Natak', 'Aaghaz street plays outside the Auditorium.'],
+   ['7:30 pm', 'Decibelz', 'Battle of the bands on the main stage.']],
+  [['10:00 am', 'Xigabytes and MUN session 2', 'Gaming brackets in the Exam Hall.'],
+   ['11:00 am', 'Maxim Mela', 'The marketing fair on the campus grounds.'],
+   ['2:00 pm', 'Vriddhi', 'CSR action plans presented to a jury.'],
+   ['5:00 pm', 'Rap It Up', 'Rap battle on the main stage.'],
+   ['8:00 pm', 'Sunburn Campus', 'The EDM night.']],
+  [['6:30 am', 'X-Athon', 'The XIMB 10K run, flagged off at the main gate.'],
+   ['10:00 am', 'J.O.A.T. finals and MUN closing', 'Final rounds and committee results.'],
+   ['3:00 pm', 'Prize distribution', 'Results and awards across events.'],
+   ['7:30 pm', 'Celebrity night', 'The headline concert to close the fest.']],
 ];
 const tl = $('#timeline');
 function renderDay(d) {
   tl.style.setProperty('--fill', '0%');
-  tl.innerHTML = days[d].map((s, i) => `<li style="animation-delay:${i * 80}ms"><time>${s[0]} · time TBA</time><h4>${s[1]}</h4><p>${s[2]}</p></li>`).join('');
+  tl.innerHTML = days[d].map((s, i) => `<li style="animation-delay:${i * 80}ms"><time>${s[0]} · tentative</time><h4>${s[1]}</h4><p>${s[2]}</p></li>`).join('');
   requestAnimationFrame(() => requestAnimationFrame(() => tl.style.setProperty('--fill', '100%')));
 }
 renderDay(0);
@@ -595,7 +594,7 @@ form.addEventListener('submit', async e => {
   if (!name.value.trim()) { msg = 'Add your name so we know who to update.'; name.classList.add('bad'); }
   else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) { msg = 'Enter a valid email, like you@college.edu.'; email.classList.add('bad'); }
   else if (!college.value.trim()) { msg = 'Add your college or organisation.'; college.classList.add('bad'); }
-  else if (!interests.length) msg = 'Pick at least one experience you are interested in.';
+  else if (!interests.length) msg = 'Pick at least one event you are interested in.';
   err.hidden = !msg; err.textContent = msg;
   if (msg) return;
 
@@ -607,6 +606,7 @@ form.addEventListener('submit', async e => {
     body.append(gf.fields.email, email.value.trim());
     if (gf.fields.college) body.append(gf.fields.college, college.value.trim());
     if (gf.fields.interests) interests.forEach(v => body.append(gf.fields.interests, v));
+    if (gf.fields.sides) [...new Set($$('input[name=interests]:checked').map(i => i.dataset.side))].forEach(v => body.append(gf.fields.sides, v));
     try {
       await fetch(gf.action, { method: 'POST', mode: 'no-cors', body });
       mode = 'We will email updates for: ' + interests.join(', ') + '.';
