@@ -104,14 +104,15 @@
       <button role="tab" data-side="watch" aria-selected="false"><small>03</small><strong>WATCH</strong><span>For your crowd side</span></button>
       <button role="tab" data-side="give-back" aria-selected="false"><small>04</small><strong>GIVE BACK</strong><span>For your giving side</span></button>
     </div>
-    <div class="slider">
-      <div class="slider-track" id="event-grid" tabindex="0" role="region" aria-label="Festival events, scroll sideways"></div>
+    <div class="cflow" id="cflow" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Festival events. Use left and right arrow keys to browse.">
+      <div class="cflow-stage" id="event-grid"></div>
     </div>
     <div class="slider-ctrl">
       <p class="tab-note" id="tab-note" aria-live="polite">Every listing is tentative until the organising team confirms it.</p>
-      <div class="slider-bar" aria-hidden="true"><span id="slider-fill"></span></div>
-      <button class="sl-btn" id="sl-prev" aria-label="Previous events">←</button>
-      <button class="sl-btn" id="sl-next" aria-label="Next events">→</button>
+      <div class="cflow-dots" id="cflow-dots" aria-hidden="true"></div>
+      <span class="cflow-count" id="cflow-count">01 / 13</span>
+      <button class="sl-btn" id="sl-prev" aria-label="Previous event">←</button>
+      <button class="sl-btn" id="sl-next" aria-label="Next event">→</button>
     </div>
   </div>
 </section>

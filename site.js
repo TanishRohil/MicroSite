@@ -329,67 +329,93 @@ const grid = $('#event-grid'), note = $('#tab-note');
 function media(ev) {
   return ev.img ? `<img src="${ev.img}" alt="" loading="lazy">` : `<div class="ph-art">${ev.ph || 'X'}<small>IMAGE PLACEHOLDER</small></div>`;
 }
-const sides = ['compete', 'perform', 'watch', 'give-back'];
 grid.innerHTML = events.map((ev, i) => `
-  <article class="ev" data-i="${i}" data-side="${ev.side}">
+  <article class="ev" data-i="${i}" data-side="${ev.side}" aria-roledescription="slide" aria-label="${i + 1} of ${events.length}: ${ev.name}">
     <div class="ev-media">${media(ev)}<span class="tag${ev.hot ? ' hot' : ''}">${ev.tag}</span></div>
     <div class="ev-body"><small>${sideLabel[ev.side]} · ${ev.cat}</small><h3>${ev.name}</h3><p>${ev.blurb}</p>
-      <div class="ev-actions">
-        <button class="btn btn-sm" type="button" data-open>Before you commit</button>
-        <a class="btn btn-sm btn-line" href="#interest" data-reg>Register interest <i>↗</i></a>
-      </div>
+      <div class="ev-actions"><button class="btn" type="button" data-open>Before you commit</button></div>
     </div>
   </article>`).join('');
-const cards = $$('.ev', grid), tabs = $$('.tabs [role=tab]');
-const fill = $('#slider-fill'), prevBtn = $('#sl-prev'), nextBtn = $('#sl-next');
-const step = () => (cards[1]?.offsetLeft - cards[0].offsetLeft) || cards[0].offsetWidth;
-let jumping = false, jumpTimer;
-function scrollToCard(i) {
-  grid.scrollTo({ left: cards[i].offsetLeft - cards[0].offsetLeft, behavior: reduced ? 'auto' : 'smooth' });
+const cflow = $('#cflow'), cards = $$('.ev', grid), tabs = $$('.tabs [role=tab]');
+const dotsEl = $('#cflow-dots'), countEl2 = $('#cflow-count');
+dotsEl.innerHTML = cards.map(() => '<span></span>').join('');
+const dotEls = $$('span', dotsEl);
+let active = 0, dragX = 0, autoTimer;
+const N = cards.length;
+const on0 = i => i === active;
+const wrapOff = i => { let o = i - active; if (o > N / 2) o -= N; if (o < -N / 2) o += N; return o; };
+function layout() {
+  const cw = cards[0].offsetWidth;
+  const gap = innerWidth < 760 ? cw * .86 : cw * .82;
+  const h = Math.max(...cards.map(c => c.offsetHeight));
+  grid.style.setProperty('--stage-h', (h + 40) + 'px');
+  cards.forEach((c, i) => {
+    const o = wrapOff(i) + dragX / gap, a = Math.abs(o);
+    const scale = Math.max(.62, 1 - a * .17);
+    c.style.transform = `translateX(${o * gap}px) scale(${scale})`;
+    c.style.opacity = a <= 2.1 ? '1' : String(Math.max(0, 1 - (a - 2.1) * 2));
+    c.style.filter = on0(i) ? 'none' : `brightness(${1 - Math.min(a, 2) * .14}) saturate(.8)`;
+    c.style.zIndex = String(10 - Math.round(a));
+    c.style.pointerEvents = a > 2.5 ? 'none' : '';
+    const on = i === active;
+    c.classList.toggle('active', on);
+    c.setAttribute('aria-hidden', String(!on));
+    $$('button', c).forEach(b => (b.tabIndex = on ? 0 : -1));
+  });
+  dotEls.forEach((d, i) => d.classList.toggle('on', i === active));
+  countEl2.textContent = `${String(active + 1).padStart(2, '0')} / ${String(N).padStart(2, '0')}`;
+  tabs.forEach(t => t.setAttribute('aria-selected', String(t.dataset.side === cards[active].dataset.side)));
 }
-function setTab(side) { tabs.forEach(t => t.setAttribute('aria-selected', String(t.dataset.side === side))); }
-function onSlide() {
-  const max = grid.scrollWidth - grid.clientWidth;
-  const p = max > 0 ? grid.scrollLeft / max : 0;
-  fill.style.width = (grid.clientWidth / grid.scrollWidth * 100 + p * (100 - grid.clientWidth / grid.scrollWidth * 100)) + '%';
-  prevBtn.disabled = grid.scrollLeft < 4;
-  nextBtn.disabled = grid.scrollLeft > max - 4;
-  if (jumping) return;
-  const first = cards.find(c => c.offsetLeft - cards[0].offsetLeft + c.offsetWidth / 2 > grid.scrollLeft) || cards[0];
-  setTab(p > .98 ? cards[cards.length - 1].dataset.side : first.dataset.side);
+function goTo(i) { active = (i + N) % N; layout(); restartAuto(); }
+function restartAuto() {
+  clearInterval(autoTimer);
+  if (!reduced) autoTimer = setInterval(() => { if (!cflow.matches(':hover') && !cflow.contains(document.activeElement)) goTo(active + 1); }, 5000);
 }
-grid.addEventListener('scroll', onSlide, { passive: true });
-addEventListener('resize', onSlide);
-onSlide();
-prevBtn.addEventListener('click', () => grid.scrollBy({ left: -step() * Math.max(1, Math.floor(grid.clientWidth / step())), behavior: reduced ? 'auto' : 'smooth' }));
-nextBtn.addEventListener('click', () => grid.scrollBy({ left: step() * Math.max(1, Math.floor(grid.clientWidth / step())), behavior: reduced ? 'auto' : 'smooth' }));
-grid.addEventListener('keydown', e => {
-  if (e.key === 'ArrowRight') { e.preventDefault(); grid.scrollBy({ left: step(), behavior: 'smooth' }); }
-  if (e.key === 'ArrowLeft') { e.preventDefault(); grid.scrollBy({ left: -step(), behavior: 'smooth' }); }
+$('#sl-prev').addEventListener('click', () => goTo(active - 1));
+$('#sl-next').addEventListener('click', () => goTo(active + 1));
+cflow.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') { e.preventDefault(); goTo(active + 1); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); goTo(active - 1); }
 });
+// Clicking a side card brings it to the centre instead of opening it.
+grid.addEventListener('click', e => {
+  const c = e.target.closest('.ev');
+  if (c && !c.classList.contains('active')) { e.stopImmediatePropagation(); e.preventDefault(); goTo(+c.dataset.i); }
+}, true);
+// Swipe / drag
+(() => {
+  let down = false, sx = 0, moved = false, cw = 1;
+  cflow.addEventListener('pointerdown', e => {
+    if (e.target.closest('button,a')) return;
+    down = true; moved = false; sx = e.clientX; cw = cards[0].offsetWidth; cflow.classList.add('dragging');
+  });
+  addEventListener('pointermove', e => {
+    if (!down) return;
+    dragX = e.clientX - sx;
+    if (Math.abs(dragX) > 6) moved = true;
+    layout();
+  });
+  addEventListener('pointerup', () => {
+    if (!down) return;
+    down = false; cflow.classList.remove('dragging');
+    const steps = Math.round(-dragX / (cw * .6));
+    dragX = 0;
+    if (steps) goTo(active + Math.max(-3, Math.min(3, steps))); else layout();
+  });
+  cflow.addEventListener('click', e => { if (moved) { e.stopImmediatePropagation(); e.preventDefault(); moved = false; } }, true);
+})();
 tabs.forEach(tab => tab.addEventListener('click', () => {
   const side = tab.dataset.side;
-  setTab(side);
-  jumping = true; clearTimeout(jumpTimer); jumpTimer = setTimeout(() => (jumping = false), 900);
-  scrollToCard(cards.findIndex(c => c.dataset.side === side));
+  goTo(cards.findIndex(c => c.dataset.side === side));
   const n = events.filter(e => e.side === side).length;
   note.textContent = `${n} ${sideLabel[side].toLowerCase()} experiences. Details are tentative until confirmed.`;
   track('experience_select', { experience: side });
 }));
-// Drag to scroll with a mouse
-(() => {
-  let down = false, sx = 0, sl = 0, moved = false;
-  grid.addEventListener('pointerdown', e => { if (e.pointerType !== 'mouse' || e.target.closest('a,button')) return; down = true; moved = false; sx = e.clientX; sl = grid.scrollLeft; grid.classList.add('dragging'); });
-  addEventListener('pointermove', e => { if (!down) return; const dx = e.clientX - sx; if (Math.abs(dx) > 4) moved = true; grid.scrollLeft = sl - dx; });
-  addEventListener('pointerup', () => { if (!down) return; down = false; grid.classList.remove('dragging'); });
-  grid.addEventListener('click', e => { if (moved) { e.stopPropagation(); e.preventDefault(); moved = false; } }, true);
-})();
-grid.addEventListener('click', e => {
-  const reg = e.target.closest('[data-reg]');
-  if (!reg) return;
-  const box = document.getElementById('i-' + reg.closest('.ev').dataset.side);
-  if (box) box.checked = true;
-});
+addEventListener('resize', layout);
+document.fonts?.ready.then(layout);
+window.addEventListener('load', layout);
+layout();
+restartAuto();
 
 /* Modal */
 const modal = $('#modal');
