@@ -90,8 +90,6 @@ setTimeout(() => $$('.reveal').forEach(el => el.classList.add('in')), 4000);
 const heroSlides = [
   { image: 'assets/hero-mic.webp', fit: 'full', position: '100% 50%', seam: [0.771, 0.562],
     top: 'Notebook by day.', bottom: 'Mic by night.', label: 'One person. Different sides.' },
-  { image: 'assets/hero-dancer.webp', fit: 'full', position: '100% 50%', seam: [0.765, 0.549],
-    top: 'Front row in class.', bottom: 'Centre stage at Xpressions.', label: 'My stage side' },
 ];
 const SLIDE_MS = 4000;
 
