@@ -88,12 +88,10 @@ setTimeout(() => $$('.reveal').forEach(el => el.classList.add('in')), 4000);
 // position: CSS background-position. seam: where the "\" break runs, as fractions of the
 // image width at its top and bottom edge (only for 'full' images; leave out to use a default).
 const heroSlides = [
-  { image: 'assets/hero-main.webp', fit: 'full', position: '100% 50%', seam: [0.608, 0.826],
-    top: 'Good with numbers.', bottom: 'Better with a chorus.', label: 'One person. Different sides.' },
-  { image: 'assets/hero-dance.webp', fit: 'full', position: '100% 40%',
-    top: 'Classical at heart.', bottom: 'Freestyle on stage.', label: 'My stage side' },
-  { image: 'assets/hero-runway.webp', fit: 'full', position: '75% 45%',
-    top: 'Boardroom ready.', bottom: 'Runway ready.', label: 'My spotlight side' },
+  { image: 'assets/hero-mic.webp', fit: 'full', position: '100% 50%', seam: [0.771, 0.562],
+    top: 'Notebook by day.', bottom: 'Mic by night.', label: 'One person. Different sides.' },
+  { image: 'assets/hero-dancer.webp', fit: 'full', position: '100% 50%', seam: [0.765, 0.549],
+    top: 'Front row in class.', bottom: 'Centre stage at Xpressions.', label: 'My stage side' },
 ];
 const SLIDE_MS = 4000;
 
