@@ -14,7 +14,7 @@
 <meta property="og:title" content="Xpressions at XIMB | Bring your other side">
 <meta property="og:description" content="Business challenges. Creative performances. Live entertainment. XIMB, Bhubaneswar.">
 <meta property="og:image" content="assets/hero-mic.webp">
-<!-- Search Console: paste the URL-prefix verification meta tag here before verifying -->
+<meta name="google-site-verification" content="y0wqNuc_-UabpU1ehJ69dK9xJ4WOu88sKGvFNIq20hE" />
 <link rel="preload" href="assets/fonts/anton-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="styles.css">
 <script src="site.js" defer></script>
@@ -235,10 +235,16 @@
         <div class="field"><label for="f-name">Name</label><input id="f-name" name="name" autocomplete="name" required placeholder="Your full name"></div>
         <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required placeholder="you@college.edu"></div>
         <div class="field"><label for="f-college">College or organisation</label><input id="f-college" name="college" autocomplete="organization" required placeholder="e.g. XIMB"></div>
+        <div class="field-row">
+          <div class="field"><label for="f-age">Age group</label><select id="f-age" name="age" required><option value="">Select</option><option>18 to 21</option><option>22 to 25</option><option>26 to 30</option><option>Above 30</option></select></div>
+          <div class="field"><label for="f-role">I am a</label><select id="f-role" name="role" required><option value="">Select</option><option>Student at XIMB</option><option>Student at another college</option><option>Working professional</option><option>Other</option></select></div>
+        </div>
         <fieldset class="field">
           <legend>Events I'm interested in</legend>
           <div class="event-picks" id="interest-chips"></div>
         </fieldset>
+        <div class="field"><label for="f-heard">How did you hear about Xpressions?</label><select id="f-heard" name="heard" required><option value="">Select</option><option>Instagram</option><option>WhatsApp</option><option>Poster on campus</option><option>LinkedIn</option><option>Friend or classmate</option><option>Other</option></select></div>
+        <label class="consent" for="f-consent"><input type="checkbox" id="f-consent" name="consent" required><span>I am 18 or older and agree to receive updates about Xpressions by email. My details are used only for this course project.</span></label>
         <p class="error" id="form-error" role="alert" hidden></p>
         <button class="btn btn-full" type="submit">Register my interest <i>↗</i></button>
         <p class="fine">Submitting interest does not confirm entry or participation.</p>

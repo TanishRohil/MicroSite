@@ -355,7 +355,14 @@ h1{font-size:clamp(3.2rem,6.4vw,6.4rem);margin-bottom:1rem}
 .field label,.field legend{font:500 .7rem var(--mono);letter-spacing:.14em;text-transform:uppercase;padding:0;margin-bottom:.35rem}
 .field input{font:inherit;padding:.8rem .9rem;border:1.5px solid var(--line);background:#fffdf9;border-radius:3px;color:var(--navy);transition:border-color .2s,box-shadow .2s;width:100%}
 .field input:focus{outline:none;border-color:var(--coral);box-shadow:0 0 0 4px rgba(255,91,85,.18)}
-.field input.bad{border-color:var(--red)}
+.field input.bad,.field select.bad{border-color:var(--red)}
+.field select{font:inherit;padding:.8rem .9rem;border:1.5px solid var(--line);background:#fffdf9;border-radius:3px;color:var(--navy);width:100%;appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--navy) 50%),linear-gradient(135deg,var(--navy) 50%,transparent 50%);background-position:calc(100% - 18px) 55%,calc(100% - 12px) 55%;background-size:6px 6px;background-repeat:no-repeat;padding-right:2.2rem}
+.field select:focus{outline:none;border-color:var(--coral);box-shadow:0 0 0 4px rgba(255,91,85,.18)}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.consent{display:flex;gap:.6rem;align-items:flex-start;font-size:.85rem;line-height:1.45;cursor:pointer}
+.consent input{margin-top:.2rem;width:18px;height:18px;accent-color:var(--coral);flex:none}
+.consent.bad span{color:var(--red)}
+@media(max-width:480px){.field-row{grid-template-columns:1fr}}
 .chips{display:flex;flex-wrap:wrap;gap:.5rem}
 .chips label{cursor:pointer}
 .chips input{position:absolute;opacity:0;width:1px;height:1px}

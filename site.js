@@ -1,11 +1,11 @@
 /* Xpressions microsite | Group 4
    Fill these in before launch. Everything else works without them. */
 const settings = {
-  measurementId: '',          // GA4 web stream ID, e.g. 'G-ABC123XYZ'
+  measurementId: 'G-E7EFH1RP3V',          // GA4 web stream ID, e.g. 'G-ABC123XYZ'
   interestFormUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSf5POAwJ4CLLn8W-3zHFE43xcd8k7fnvtP2oKUTKCsqTIRgaw/viewform',
   googleForm: {
     action: 'https://docs.google.com/forms/d/e/1FAIpQLSf5POAwJ4CLLn8W-3zHFE43xcd8k7fnvtP2oKUTKCsqTIRgaw/formResponse',
-    fields: { name: 'entry.1784363011', email: 'entry.1298956331', college: 'entry.1885792002', interests: 'entry.391021467', sides: 'entry.1806788598' },
+    fields: { name: 'entry.1784363011', email: 'entry.1298956331', college: 'entry.1885792002', interests: 'entry.391021467', sides: 'entry.1806788598', age: '', role: '', heard: '', consent: '', source: '' }, // new IDs: run tools/add-survey-questions.gs
   },
   festStart: '2027-01-17T09:00:00+05:30', // Tentative start date. Replace with the confirmed one.
   festDays: 3,
@@ -624,13 +624,19 @@ form.addEventListener('focusin', () => {
 form.addEventListener('submit', async e => {
   e.preventDefault();
   const name = $('#f-name'), email = $('#f-email'), college = $('#f-college');
+  const age = $('#f-age'), role = $('#f-role'), heard = $('#f-heard'), consent = $('#f-consent');
   const interests = $$('input[name=interests]:checked').map(i => i.value);
-  [name, email, college].forEach(i => i.classList.remove('bad'));
+  [name, email, college, age, role, heard].forEach(i => i.classList.remove('bad'));
+  consent.parentElement.classList.remove('bad');
   let msg = '';
   if (!name.value.trim()) { msg = 'Add your name so we know who to update.'; name.classList.add('bad'); }
   else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) { msg = 'Enter a valid email, like you@college.edu.'; email.classList.add('bad'); }
   else if (!college.value.trim()) { msg = 'Add your college or organisation.'; college.classList.add('bad'); }
+  else if (!age.value) { msg = 'Select your age group.'; age.classList.add('bad'); }
+  else if (!role.value) { msg = 'Tell us whether you are a student or a professional.'; role.classList.add('bad'); }
   else if (!interests.length) msg = 'Pick at least one event you are interested in.';
+  else if (!heard.value) { msg = 'Tell us how you heard about Xpressions.'; heard.classList.add('bad'); }
+  else if (!consent.checked) { msg = 'Tick the box to confirm you are 18 or older and agree to receive updates.'; consent.parentElement.classList.add('bad'); }
   err.hidden = !msg; err.textContent = msg;
   if (msg) return;
 
@@ -643,6 +649,11 @@ form.addEventListener('submit', async e => {
     if (gf.fields.college) body.append(gf.fields.college, college.value.trim());
     if (gf.fields.interests) interests.forEach(v => body.append(gf.fields.interests, v));
     if (gf.fields.sides) [...new Set($$('input[name=interests]:checked').map(i => i.dataset.side))].forEach(v => body.append(gf.fields.sides, v));
+    if (gf.fields.age) body.append(gf.fields.age, age.value);
+    if (gf.fields.role) body.append(gf.fields.role, role.value);
+    if (gf.fields.heard) body.append(gf.fields.heard, heard.value);
+    if (gf.fields.consent) body.append(gf.fields.consent, 'I am 18 or older and agree to receive updates about Xpressions by email');
+    if (gf.fields.source) body.append(gf.fields.source, campaignSrc);
     try {
       await fetch(gf.action, { method: 'POST', mode: 'no-cors', body });
       mode = 'We will email updates for: ' + interests.join(', ') + '.';
