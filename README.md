@@ -24,9 +24,17 @@ Edit `heroSlides` in site.js. Each slide has `image` (put files in assets/), `po
 - Add real contact email/phone and social URLs in the FAQ section of index.html (remove `data-pending` from each social link).
 - Paste the Search Console verification meta tag in the head.
 
-## Analytics events
-`experience_select` (experience), `event_open` (event_name, experience), `interest_section_click`, `register_intent_click` (method), `interest_submit` (experiences), `add_to_calendar`. Mark `interest_submit` as the key event. Register `experience` and `event_name` as event-scoped custom dimensions.
+## Analytics events (GA4)
+Set `measurementId` in site.js. Events sent:
+- `page_view` on load, plus one per section the first time it is scrolled into view (Find your X, Blast from the past, Plan your visit, Register interest, FAQs and contact)
+- `cta_click` (cta_text, cta_location) for every call to action
+- `registration_start` when someone first clicks into the interest form
+- `registration_complete` and `generate_lead` when the form is submitted; mark `registration_complete` as a key event
+- `experience_select`, `event_open`, `add_to_calendar`, `register_intent_click`
+Register `cta_text`, `cta_location` and `source` as event-scoped custom dimensions.
 
+## Search Console
+`sitemap.xml` and `robots.txt` are included. Add the URL-prefix verification meta tag to the head of index.html, push, verify, then submit `sitemap.xml`.
 ## Deploy on Vercel
 Upload these files to a GitHub repo with index.html at the root, import into Vercel with the "Other" preset and no build command. Test with
 `?utm_source=instagram&utm_medium=social&utm_campaign=xpressions_2026&utm_content=story_a`

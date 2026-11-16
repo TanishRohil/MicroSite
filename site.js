@@ -72,7 +72,25 @@ const spy = new IntersectionObserver(entries => {
 ['explore', 'highlights', 'programme', 'interest', 'faq'].forEach(id => spy.observe(document.getElementById(id)));
 new IntersectionObserver(([e]) => { interestVisible = e.isIntersecting; onScroll(); }, { threshold: .15 }).observe(interestSec);
 
-$$('a[href="#interest"]').forEach(l => l.addEventListener('click', () => track('interest_section_click', { location: l.closest('section,header,div')?.id || 'page' })));
+/* GA4: CTA clicks. Every call-to-action sends cta_click with its text and where it sits. */
+const ctaPlace = el => el.closest('#top-bar') ? 'header' : el.classList.contains('sticky-cta') ? 'sticky_mobile' : el.closest('.modal') ? 'event_popup' : (el.closest('section')?.id || 'page');
+document.addEventListener('click', e => {
+  const el = e.target.closest('a[href="#interest"], a[href="#explore"], #m-cta, #ext-form, #cal-google, #cal-ics, [data-open]');
+  if (!el) return;
+  track('cta_click', { cta_text: el.textContent.replace(/[↗↓＋+]/g, '').trim().slice(0, 60), cta_location: ctaPlace(el) });
+});
+
+/* GA4: section views. The microsite is one page, so each main section sends a page_view the first time
+   it is scrolled into view in a session. "Views by page" then reads per section. */
+const sectionNames = { explore: 'Find your X', highlights: 'Blast from the past', programme: 'Plan your visit', interest: 'Register interest', faq: 'FAQs and contact' };
+const seenSections = new Set();
+const sectionObs = new IntersectionObserver(entries => entries.forEach(e => {
+  const id = e.target.id;
+  if (!e.isIntersecting || seenSections.has(id)) return;
+  seenSections.add(id);
+  track('page_view', { page_title: 'Xpressions | ' + sectionNames[id], page_location: location.origin + location.pathname + '#' + id });
+}), { threshold: .35 });
+Object.keys(sectionNames).forEach(id => { const el = document.getElementById(id); if (el) sectionObs.observe(el); });
 
 /* ---------- Reveal on scroll ---------- */
 const rev = new IntersectionObserver(entries => {
@@ -550,6 +568,22 @@ $$('.day-tabs [role=tab]').forEach(b => b.addEventListener('click', () => {
   });
 })();
 
+/* Campaign attribution (Step 4): counts visits and interest sign-ups per tracked link.
+   Each campaign link carries utm_content (e.g. wa_exp_a). The first page view of a visit adds 1 to
+   v-<utm_content>; a submitted interest form adds 1 to s-<utm_content> (or s-direct). See stats.html. */
+const CAMPAIGN_NS = 'ximb-xpressions';
+const campaignSrc = (() => {
+  const clean = s => (s || '').toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 40);
+  const fromUrl = clean(new URLSearchParams(location.search).get('utm_content'));
+  let stored = '', counted = false;
+  try { stored = sessionStorage.getItem('xp_src') || ''; counted = sessionStorage.getItem('xp_counted') === fromUrl; } catch {}
+  if (fromUrl && !counted) {
+    fetch(`https://abacus.jasoncameron.dev/hit/${CAMPAIGN_NS}/v-${fromUrl}`, { cache: 'no-store' }).catch(() => {});
+    try { sessionStorage.setItem('xp_src', fromUrl); sessionStorage.setItem('xp_counted', fromUrl); } catch {}
+  }
+  return fromUrl || stored || 'direct';
+})();
+
 /* Visitor counter: +1 on every page open */
 (async () => {
   const el = $('#visit-count');
@@ -581,6 +615,12 @@ if (/^https:\/\/(forms\.gle\/|docs\.google\.com\/forms\/)/.test(settings.interes
   ext.href = settings.interestFormUrl; ext.hidden = false;
   ext.addEventListener('click', () => track('register_intent_click', { method: 'google_form_link' }));
 }
+let regStarted = false;
+form.addEventListener('focusin', () => {
+  if (regStarted) return;
+  regStarted = true;
+  track('registration_start', { source: campaignSrc });
+});
 form.addEventListener('submit', async e => {
   e.preventDefault();
   const name = $('#f-name'), email = $('#f-email'), college = $('#f-college');
@@ -594,7 +634,7 @@ form.addEventListener('submit', async e => {
   err.hidden = !msg; err.textContent = msg;
   if (msg) return;
 
-  track('register_intent_click', { method: 'onsite_form', experiences: interests.join(',') });
+  track('register_intent_click', { method: 'onsite_form', source: campaignSrc, experiences: interests.join(',') });
   let mode = 'Preview mode: this response is not stored yet. Connect the Google Form in site.js before launch.';
   if (gfReady) {
     const body = new URLSearchParams();
@@ -606,7 +646,9 @@ form.addEventListener('submit', async e => {
     try {
       await fetch(gf.action, { method: 'POST', mode: 'no-cors', body });
       mode = 'We will email updates for: ' + interests.join(', ') + '.';
-      track('interest_submit', { experiences: interests.join(',') });
+      track('registration_complete', { source: campaignSrc, events_count: interests.length, experiences: interests.join(',').slice(0, 100) });
+      track('generate_lead', { lead_source: campaignSrc });
+      fetch(`https://abacus.jasoncameron.dev/hit/${CAMPAIGN_NS}/s-${campaignSrc}`, { cache: 'no-store' }).catch(() => {});
     } catch { mode = 'We could not reach the form. Check your connection and try again.'; }
   }
   $('#ack-name').textContent = name.value.trim().split(' ')[0];

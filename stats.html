@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Campaign Stats | Xpressions Microsite</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<style>
+@font-face{font-family:'Anton';src:url(assets/fonts/anton-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'Onest';src:url(assets/fonts/onest-latin-400-normal.woff2) format('woff2');font-weight:400}
+@font-face{font-family:'Onest';src:url(assets/fonts/onest-latin-700-normal.woff2) format('woff2');font-weight:700}
+@font-face{font-family:'IBM Plex Mono';src:url(assets/fonts/ibm-plex-mono-latin-500-normal.woff2) format('woff2');font-weight:500}
+:root{--navy:#10182b;--ivory:#f4efe6;--coral:#ff5b55;--red:#b8302f;--line:#d9d2c6;--muted:#5b6274;--sand:#e9e1d5}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ivory);color:var(--navy);font:400 1rem/1.55 Onest,system-ui,sans-serif}
+.wrap{max-width:1100px;margin:auto;padding:2rem max(16px,env(safe-area-inset-left,0px)) 3rem}
+h1{font:400 clamp(2.4rem,6vw,3.6rem)/1 Anton,Impact,sans-serif;text-transform:uppercase;margin:0 0 .4rem}
+h1 em{color:var(--coral);font-style:normal}
+h2{font:400 1.6rem/1.1 Anton,Impact,sans-serif;text-transform:uppercase;margin:2.2rem 0 .8rem}
+.eyebrow{font:500 .72rem 'IBM Plex Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin:0 0 .6rem}
+.note{color:var(--muted);font-size:.9rem;max-width:70ch}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.8rem;margin-top:1.4rem}
+.kpi{background:var(--navy);color:var(--ivory);border-radius:4px;padding:1rem 1.1rem}
+.kpi small{font:500 .66rem 'IBM Plex Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:#aab0c0}
+.kpi b{display:block;font:400 2.4rem/1.1 Anton,Impact,sans-serif;font-variant-numeric:tabular-nums;color:var(--coral)}
+.scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.92rem;min-width:620px}
+th,td{text-align:left;padding:.6rem .7rem;border-bottom:1px solid var(--line)}
+th{font:500 .68rem 'IBM Plex Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+td.n{text-align:right;font-variant-numeric:tabular-nums}
+th.n{text-align:right}
+.bar{height:8px;background:var(--sand);border-radius:4px;overflow:hidden;min-width:90px}
+.bar span{display:block;height:100%;background:var(--coral)}
+.ab{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.card{background:#fffdf9;border:1px solid var(--line);border-radius:4px;padding:1.1rem}
+.card h3{margin:0 0 .3rem;font-size:1.05rem}
+.card .big{font:400 2.2rem Anton,Impact,sans-serif;color:var(--navy)}
+.verdict{margin-top:1rem;padding:1rem 1.1rem;background:var(--navy);color:var(--ivory);border-radius:4px}
+button{font:700 .9rem Onest,sans-serif;background:var(--coral);color:var(--navy);border:0;border-radius:3px;padding:.6rem 1rem;cursor:pointer}
+code{font-family:'IBM Plex Mono',monospace;font-size:.82rem}
+@media(max-width:640px){.ab{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Step 4 · Traffic campaign · 8 to 20 Nov 2026</p>
+  <h1>Campaign <em>stats.</em></h1>
+  <p class="note">Live counts from the tracked links. A visit is counted once per browser session when someone lands through a campaign link. A sign-up is a submitted interest form, credited to the link the visitor arrived from. Opening this page does not change any count.</p>
+  <p><button id="refresh">Refresh counts</button> <span class="note" id="updated"></span></p>
+
+  <div class="kpis">
+    <div class="kpi"><small>All site visits</small><b id="k-total">…</b></div>
+    <div class="kpi"><small>Campaign link visits</small><b id="k-camp">…</b></div>
+    <div class="kpi"><small>Interest sign-ups</small><b id="k-sign">…</b></div>
+    <div class="kpi"><small>Campaign conversion</small><b id="k-conv">…</b></div>
+  </div>
+
+  <h2>By tracked link</h2>
+  <div class="scroll"><table>
+    <thead><tr><th>Link (utm_content)</th><th>Channel</th><th>Creative</th><th class="n">Visits</th><th class="n">Sign-ups</th><th class="n">Conversion</th><th>Share of visits</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table></div>
+
+  <h2>Experiment: headline A vs B</h2>
+  <p class="note">Same WhatsApp card, same image, same call to action and the same send time. Only the headline differs. Variant A was sent to half the groups and variant B to the other half.</p>
+  <div class="ab">
+    <div class="card"><p class="eyebrow">Variant A · wa_exp_a</p><h3>"Bring your other side."</h3><div class="big" id="a-conv">…</div><p class="note" id="a-detail"></p></div>
+    <div class="card"><p class="eyebrow">Variant B · wa_exp_b</p><h3>"Find your X."</h3><div class="big" id="b-conv">…</div><p class="note" id="b-detail"></p></div>
+  </div>
+  <div class="verdict" id="verdict">Loading…</div>
+  <p class="note" style="margin-top:1.4rem">Counts come from the free Abacus counter (namespace <code>ximb-xpressions</code>). For page-level detail, add a GA4 measurement ID in site.js; GA4 reads the same UTM tags.</p>
+</div>
+<script>
+const NS = 'ximb-xpressions', API = 'https://abacus.jasoncameron.dev/get/' + NS + '/';
+const LINKS = [
+  ['ig_post', 'Instagram feed post', 'Creative 1 · feed post'],
+  ['ig_story', 'Instagram story', 'Creative 2 · story'],
+  ['qr_poster', 'Campus poster QR', 'Creative 3 · A4 poster'],
+  ['wa_exp_a', 'WhatsApp groups', 'Experiment card A'],
+  ['wa_exp_b', 'WhatsApp groups', 'Experiment card B'],
+  ['li_post', 'LinkedIn', 'Creative 1 · feed post'],
+];
+const get = async key => { try { const r = await fetch(API + key, { cache: 'no-store' }); if (!r.ok) return 0; const j = await r.json(); return typeof j.value === 'number' ? j.value : 0; } catch { return null; } };
+const pct = (s, v) => v ? (s / v * 100).toFixed(1) + '%' : '–';
+const fmt = n => n === null ? '?' : n.toLocaleString('en-IN');
+async function load() {
+  const keys = ['microsite-visits', 's-direct', ...LINKS.flatMap(([k]) => ['v-' + k, 's-' + k])];
+  const vals = await Promise.all(keys.map(get));
+  const v = Object.fromEntries(keys.map((k, i) => [k, vals[i]]));
+  if (vals.every(x => x === null)) { document.getElementById('verdict').textContent = 'Could not reach the counter. Open this page on the live site and check your connection.'; return; }
+  const campV = LINKS.reduce((a, [k]) => a + (v['v-' + k] || 0), 0);
+  const campS = LINKS.reduce((a, [k]) => a + (v['s-' + k] || 0), 0);
+  document.getElementById('k-total').textContent = fmt(v['microsite-visits']);
+  document.getElementById('k-camp').textContent = fmt(campV);
+  document.getElementById('k-sign').textContent = fmt(campS + (v['s-direct'] || 0));
+  document.getElementById('k-conv').textContent = pct(campS, campV);
+  const max = Math.max(1, ...LINKS.map(([k]) => v['v-' + k] || 0));
+  document.getElementById('rows').innerHTML = LINKS.map(([k, ch, cr]) => {
+    const vv = v['v-' + k] || 0, ss = v['s-' + k] || 0;
+    return `<tr><td><code>${k}</code></td><td>${ch}</td><td>${cr}</td><td class="n">${fmt(vv)}</td><td class="n">${fmt(ss)}</td><td class="n">${pct(ss, vv)}</td><td><div class="bar"><span style="width:${vv / max * 100}%"></span></div></td></tr>`;
+  }).join('') + `<tr><td><code>direct</code></td><td>No campaign link</td><td>–</td><td class="n">–</td><td class="n">${fmt(v['s-direct'])}</td><td class="n">–</td><td></td></tr>`;
+  const va = v['v-wa_exp_a'] || 0, sa = v['s-wa_exp_a'] || 0, vb = v['v-wa_exp_b'] || 0, sb = v['s-wa_exp_b'] || 0;
+  document.getElementById('a-conv').textContent = pct(sa, va);
+  document.getElementById('b-conv').textContent = pct(sb, vb);
+  document.getElementById('a-detail').textContent = `${sa} sign-ups from ${va} visits`;
+  document.getElementById('b-detail').textContent = `${sb} sign-ups from ${vb} visits`;
+  // Two-proportion z-test on sign-up rate, plus a plain comparison of visits (click-through)
+  let msg;
+  if (va < 30 || vb < 30) msg = `Too early to call: each variant needs at least 30 visits (A has ${va}, B has ${vb}). Compare visits per variant for click-through, since both went to the same number of groups.`;
+  else {
+    const p = (sa + sb) / (va + vb), se = Math.sqrt(p * (1 - p) * (1 / va + 1 / vb));
+    const z = se ? (sa / va - sb / vb) / se : 0;
+    const lead = z > 0 ? 'A (“Bring your other side.”)' : 'B (“Find your X.”)';
+    msg = Math.abs(z) >= 1.96 ? `${lead} converts better, and the difference is statistically significant (z = ${z.toFixed(2)}, p < 0.05).`
+      : `${lead} is ahead, but the difference is not statistically significant yet (z = ${z.toFixed(2)}). Treat it as directional.`;
+    msg += ` Click-through: A drew ${va} visits, B drew ${vb}.`;
+  }
+  document.getElementById('verdict').textContent = msg;
+  document.getElementById('updated').textContent = 'Updated ' + new Date().toLocaleTimeString('en-IN');
+}
+document.getElementById('refresh').addEventListener('click', load);
+load();
+</script>
+</body>
+</html>
