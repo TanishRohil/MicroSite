@@ -618,7 +618,9 @@ if (/^https:\/\/(forms\.gle\/|docs\.google\.com\/forms\/)/.test(settings.interes
 /* QR prefilled form (Step 5 improvement): a campus poster scan lands on the interest form
    with the XIMB details filled in, so only name, email, age and events are left.
    Nothing is focused on load, so registration_start still fires only when the visitor taps a field. */
-const qrFast = campaignSrc === 'qr_poster';
+// Only when this page was opened from the poster QR link itself. campaignSrc stays sticky for the tab
+// (for attribution), so a later plain visit in the same tab must not jump to the form.
+const qrFast = (new URLSearchParams(location.search).get('utm_content') || '').toLowerCase() === 'qr_poster';
 if (qrFast) {
   const setByText = (sel, text) => { const o = [...sel.options].find(o => o.text.trim() === text); if (o) sel.value = o.value; };
   $('#f-college').value = 'XIMB';
