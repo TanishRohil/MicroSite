@@ -5,7 +5,7 @@ const settings = {
   interestFormUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSf5POAwJ4CLLn8W-3zHFE43xcd8k7fnvtP2oKUTKCsqTIRgaw/viewform',
   googleForm: {
     action: 'https://docs.google.com/forms/d/e/1FAIpQLSf5POAwJ4CLLn8W-3zHFE43xcd8k7fnvtP2oKUTKCsqTIRgaw/formResponse',
-    fields: { name: 'entry.1784363011', email: 'entry.1298956331', college: 'entry.1885792002', interests: 'entry.391021467', sides: 'entry.1806788598', age: '', role: '', heard: '', consent: '', source: '' }, // new IDs: run tools/add-survey-questions.gs
+    fields: { name: 'entry.1784363011', email: 'entry.1298956331', college: 'entry.1885792002', interests: 'entry.391021467', sides: 'entry.1806788598', age: 'entry.1543434848', role: 'entry.89310649', heard: 'entry.943856236', consent: 'entry.1226545978', source: 'entry.558927854' }, // read from the live form on 23 Nov 2026
   },
   festStart: '2027-01-17T09:00:00+05:30', // Tentative start date. Replace with the confirmed one.
   festDays: 3,
@@ -615,11 +615,24 @@ if (/^https:\/\/(forms\.gle\/|docs\.google\.com\/forms\/)/.test(settings.interes
   ext.href = settings.interestFormUrl; ext.hidden = false;
   ext.addEventListener('click', () => track('register_intent_click', { method: 'google_form_link' }));
 }
+/* QR prefilled form (Step 5 improvement): a campus poster scan lands on the interest form
+   with the XIMB details filled in, so only name, email, age and events are left.
+   Nothing is focused on load, so registration_start still fires only when the visitor taps a field. */
+const qrFast = campaignSrc === 'qr_poster';
+if (qrFast) {
+  const setByText = (sel, text) => { const o = [...sel.options].find(o => o.text.trim() === text); if (o) sel.value = o.value; };
+  $('#f-college').value = 'XIMB';
+  setByText($('#f-role'), 'Student at XIMB');
+  setByText($('#f-heard'), 'Poster on campus');
+  $('#interest-form h3').textContent = 'You scanned. Register in 30 seconds.';
+  addEventListener('load', () => interestSec.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth' }));
+}
+const formVersion = qrFast ? 'qr_prefilled' : 'standard';
 let regStarted = false;
 form.addEventListener('focusin', () => {
   if (regStarted) return;
   regStarted = true;
-  track('registration_start', { source: campaignSrc });
+  track('registration_start', { source: campaignSrc, form_version: formVersion });
 });
 form.addEventListener('submit', async e => {
   e.preventDefault();
@@ -657,7 +670,9 @@ form.addEventListener('submit', async e => {
     try {
       await fetch(gf.action, { method: 'POST', mode: 'no-cors', body });
       mode = 'We will email updates for: ' + interests.join(', ') + '.';
-      track('registration_complete', { source: campaignSrc, events_count: interests.length, experiences: interests.join(',').slice(0, 100) });
+      track('registration_complete', { source: campaignSrc, events_count: interests.length, experiences: interests.join(',').slice(0, 100),
+        age_group: age.value, role: role.value, heard: heard.value, form_version: formVersion });
+      window.gtag?.('set', 'user_properties', { age_group: age.value, role: role.value });
       track('generate_lead', { lead_source: campaignSrc });
       fetch(`https://abacus.jasoncameron.dev/hit/${CAMPAIGN_NS}/s-${campaignSrc}`, { cache: 'no-store' }).catch(() => {});
     } catch { mode = 'We could not reach the form. Check your connection and try again.'; }
@@ -666,4 +681,8 @@ form.addEventListener('submit', async e => {
   $('#ack-mode').textContent = mode;
   ack.hidden = false; ack.focus();
 });
-$('#ack-reset').addEventListener('click', () => { form.reset(); ack.hidden = true; $('#f-name').focus(); });
+$('#ack-reset').addEventListener('click', () => {
+  form.reset(); ack.hidden = true;
+  if (qrFast) { $('#f-college').value = 'XIMB'; $('#f-role').value = 'Student at XIMB'; $('#f-heard').value = 'Poster on campus'; }
+  $('#f-name').focus();
+});
